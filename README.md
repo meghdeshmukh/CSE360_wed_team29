@@ -2,3 +2,4 @@
 
 Marcos Galindo </br>
 Guillermo Tapia Veroa
+Nicholas Fullerton  
