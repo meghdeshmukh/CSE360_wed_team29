@@ -2,6 +2,6 @@
 
 Marcos Galindo </br>
 Guillermo Tapia Veroa </br>
-Nicholas Fullerton </br>
+Nicholas Fullerton    </br>
 Megh Deshmukh </br>
 Yue Fang
