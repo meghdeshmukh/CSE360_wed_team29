@@ -22,11 +22,11 @@ public class login extends JPanel {
 		private JButton login, createAcc;
 		
 		public login() {
-			Font mainFont = new Font("SF-Pro", Font.ITALIC, 13);
+			Font mainFont = new Font("Futura", Font.ITALIC, 25);
 			
 			resturantName = new JLabel("Welcome to ---!");
-			email = new JLabel("Email: ");
-			password = new JLabel("Password: ");
+			email = new JLabel("Email ");
+			password = new JLabel("Password ");
 			create = new JLabel("Don't have an account? click here to sign up!");
 			
 			resturantName.setFont(mainFont);
@@ -34,12 +34,13 @@ public class login extends JPanel {
 			password.setFont(mainFont);
 			create.setFont(mainFont);
 			
-			aemail = new JTextField(10);
-			apassword = new JTextField(10);
+			aemail = new JTextField(25);
+			apassword = new JTextField(25);
 			
 			login = new JButton("Login");
+			login.setPreferredSize(new Dimension(180,60));
 			createAcc = new JButton("Create Account!");
-			
+			createAcc.setPreferredSize(new Dimension(200,60));
 			
 			setLayout(null);
 			Dimension size = email.getPreferredSize();
@@ -51,14 +52,14 @@ public class login extends JPanel {
 			Dimension size6 = login.getPreferredSize();
 			Dimension size7 = createAcc.getPreferredSize();
 			
-			email.setBounds(28, 100, size.width, size.height);
-			password.setBounds(28, 60, size1.width, size1.height);
-			aemail.setBounds(100, 40, size2.width, size2.height);
-			apassword.setBounds(100, 80, size3.width, size3.height);
-			resturantName.setBounds(20, 180, size4.width, size4.height);
-			create.setBounds(50, 100, size5.width, size5.height);
-			login.setBounds(80, 200, size6.width, size6.height);
-			createAcc.setBounds(200, 250, size7.width, size7.height);
+			email.setBounds(115, 220, size.width, size.height);
+			password.setBounds(115, 150, size1.width, size1.height);
+			aemail.setBounds(250, 220, size2.width, size2.height);
+			apassword.setBounds(250, 150, size3.width, size3.height);
+			resturantName.setBounds(330, 70, size4.width, size4.height);
+			create.setBounds(140, 350, size5.width, size5.height);
+			login.setBounds(320, 275, size6.width, size6.height);
+			createAcc.setBounds(310, 400, size7.width, size7.height);
 			
 			login.addActionListener(new Buttonlistener());
 			createAcc.addActionListener(new Buttonlistener());
@@ -72,8 +73,8 @@ public class login extends JPanel {
 			add(create);
 			add(createAcc);
 			
-			setBackground(Color.lightGray);
-			setPreferredSize(new Dimension(800, 500));
+			setBackground(new Color(136, 196, 235));
+			setPreferredSize(new Dimension(770, 485));
 			
 			
 		}
