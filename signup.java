@@ -227,18 +227,4 @@ public class signup extends JPanel{
 			}//submitButton
 		}//actionPerformed
 	}//Button listener
-	
-	//test main, remove as needed
-	public static void main(String[] args) {
-		JFrame testFrame = new JFrame("test frame");
-		signup testSignup = new signup(testFrame);
-		
-		
-		testFrame.add(testSignup);
-		testFrame.setSize(900,900);
-		testFrame.pack();
-		testFrame.setLocationRelativeTo(null);
-		testFrame.show();	
-
-	}
 } //end of signup panel
