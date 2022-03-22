@@ -7,7 +7,8 @@ import javax.swing.*;
 
 public class signup extends JPanel{
 	//JFrame we are working in
-	 JFrame myframe;
+	JFrame myframe;
+	signup thisPanel;
 	
 	//Buttons
 	public JButton submitButton;
@@ -40,7 +41,11 @@ public class signup extends JPanel{
 		Font mainFont = new Font("Futura", Font.ITALIC, 25);
 		Font smallFont = new Font("Futura", Font.ITALIC, 13);
 		myframe = myFrame;
-
+		thisPanel = this;
+		setBackground(new Color(139,196,235));     		
+		//setPreferredSize(new Dimension(770, 485)); 	
+		setPreferredSize(new Dimension(myframe.getWidth(), myframe.getHeight()));
+		
 		//setup Button
 		Dimension buttonDimension = new Dimension(90, 30);
 		submitButton = new JButton("Submit");
@@ -87,10 +92,6 @@ public class signup extends JPanel{
 		//setup checkBox
 		tos = new JCheckBox("Click to agree to our Terms of Service");
 		tos.setFont(smallFont);
-		
-		//setup panel
-		setBackground(new Color(139,196,235));     		
-		setPreferredSize(new Dimension(770, 485)); 		
 		
 		//setup layout
 		//in order from topmost to bottom
@@ -157,18 +158,26 @@ public class signup extends JPanel{
 		add(cancelButton);
 	} //signup()
 	
-	
+	/*
+	 *BUTTONE LISTENER TO BE EXPANDED TO SWITCH BETWEEN SCREENS, REST OF CODE WORKS AS NORMAL 
+	 */
 	private class ButtonListener implements ActionListener{
 		public void actionPerformed(ActionEvent e) {
 			if(e.getSource() == cancelButton) {
-				///eturn to login screen, demo to new login frame atm
-				 JFrame loginFrame = new JFrame("Login");
+				///return to login screen, demo to new login frame atm
+				//TBD
+				 /*JFrame loginFrame = new JFrame("Login");
 				 loginFrame.getContentPane().add(new signup(loginFrame));
 				 loginFrame.pack();
 				 loginFrame.setLocationRelativeTo(null);
 				 loginFrame.setVisible(true);
 				 myframe.setVisible(false);
-				 myframe.dispose();
+				 myframe.dispose();*/
+				signup newSignupPanel = new signup(myframe);
+				myframe.remove(thisPanel);
+				myframe.add(newSignupPanel);
+				myframe.invalidate();
+				myframe.validate();
 			}
 			
 			else if(e.getSource() == submitButton) {
@@ -218,7 +227,7 @@ public class signup extends JPanel{
 					formatError.setVisible(true);
 				else {
 					//create a new customer and insert into database
-					
+					//TBD
 					//go to menu
 				}
 				
