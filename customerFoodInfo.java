@@ -112,37 +112,6 @@ public class customerFoodInfo extends JPanel{
 		right.add(add);
 		buttonRow.add(left);
 		buttonRow.add(right);
-		add(buttonRow);
-		
-		
-		
+		add(buttonRow);	
 	}
-	public static void main(String[] args) {
-			JFrame testFrame = new JFrame("test frame profile");
-			testFrame.setSize(new Dimension(1400, 800));
-			
-	
-			customer testCustomer = new customer();
-			for(int i = 0; i < testCustomer.payments.length; i++) {
-				testCustomer.payments[i].accountNumber = Integer.toString(i).repeat(10);
-				testCustomer.payments[i].address1 = Integer.toString(i);
-				testCustomer.payments[i].address2 = Integer.toString(i);
-				testCustomer.payments[i].cardType = Integer.toString(i);
-				testCustomer.payments[i].city = Integer.toString(i);
-				testCustomer.payments[i].cvv = Integer.toString(i);
-				testCustomer.payments[i].expireDate = Integer.toString(i);
-				testCustomer.payments[i].name = Integer.toString(i);
-				testCustomer.payments[i].state = Integer.toString(i);
-				testCustomer.payments[i].zip = Integer.toString(i);
-			}
-			
-			food testFood = new food();
-			menu testMenu = new menu();
-			customerFoodInfo testInfo = new customerFoodInfo(testFrame, testCustomer, testFood, testMenu);
-			
-			testFrame.add(testInfo);
-			testFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-			testFrame.setLocationRelativeTo(null);
-			testFrame.setVisible(true);
-		}
 }
