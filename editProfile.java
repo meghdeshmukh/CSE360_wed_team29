@@ -2,19 +2,24 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.*;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 
 
-public class editProfile extends JPanel{
+//need to add functionality from function
+
+public class editProfile extends JScrollPane{
 	
 	//JFrame we are working in
 	JFrame myFrame;
 	editProfile thisPanel = this;
+	menu myMenu;
 	
 	//Panels
-	JScrollPane scrollPane;
 	JPanel mainPane;
-	
+	JPanel paymentPanels[];
 	//Customer accessing menu
+	customer realCustomer;
 	customer editedCustomer;
 	
 	//Buttons
@@ -39,18 +44,17 @@ public class editProfile extends JPanel{
 	private JTextField phoneTF;
 	
 	
-	public editProfile(JFrame theFrame, customer theCustomer) {
+	public editProfile(JFrame theFrame, customer theCustomer, menu menu) {
 		//create a new customer object with the same information as the the original customer
 		//this customer object will be the object we change as we interact
+		realCustomer = theCustomer;
 		editedCustomer = new customer();
-		editedCustomer.email = theCustomer.email;
-		editedCustomer.fullname = theCustomer.fullname;
-		editedCustomer.password = theCustomer.password;
-		editedCustomer.phone = theCustomer.phone;
-		editedCustomer.username = theCustomer.username;
+		copyInformation(editedCustomer, realCustomer);
 		
 		//the frame we interact with
 		myFrame = theFrame;
+		myMenu = menu;
+		setBackground(new Color(139,196,235));   
 		
 		//Font Setup
 		Font mainFont = new Font("Futura", Font.ITALIC, 25);
@@ -59,7 +63,7 @@ public class editProfile extends JPanel{
 		//Button setup
 		Dimension buttonDimension = new Dimension(90,30);
 		cancelButton = new JButton("Cancel");
-		cancelButton.setFont(mainFont);
+		cancelButton.setFont(smallFont);
 		cancelButton.addActionListener(new ButtonListener());
 		cancelButton.setPreferredSize(buttonDimension);
 		saveButton = new JButton("Submit");
@@ -67,130 +71,323 @@ public class editProfile extends JPanel{
 		saveButton.addActionListener(new ButtonListener());
 		saveButton.setPreferredSize(buttonDimension);
 		saveButton.setBackground(new Color(235, 73, 52));
+		morePayment = new JButton("Add another payment method");
+		morePayment.setFont(smallFont);
+		morePayment.addActionListener(new ButtonListener());
+		morePayment.setBorderPainted(false);
+		morePayment.setContentAreaFilled(false);
+		morePayment.setForeground(Color.GREEN);
 		
 		//Label setup
 		profileLabel = new JLabel("Edit Profile");
 		profileLabel.setFont(mainFont);
 		userNameLabel = new JLabel("Username");
-		userNameLabel.setFont(smallFont);
 		fullNameLabel = new JLabel("Full Name");
-		fullNameLabel.setFont(smallFont);
 		emailLabel = new JLabel("Email");
-		emailLabel.setFont(smallFont);
 		passwordLabel = new JLabel("Password");
-		passwordLabel.setFont(smallFont);
 		phoneLabel = new JLabel("Phone");
-		phoneLabel.setFont(smallFont);
 		paymentLabel = new JLabel("Payment Methods");
-		paymentLabel.setFont(smallFont);
 		
 		//Textfield setup
 		userNameTF = new JTextField(25);
+		userNameTF.setText(editedCustomer.username);
+		connectCustomerToTextField(userNameTF);
 		fullNameTF = new JTextField(25);
+		fullNameTF.setText(editedCustomer.fullname);
+		connectCustomerToTextField(fullNameTF);
 		emailTF = new JTextField(25);
+		emailTF.setText(editedCustomer.email);
+		connectCustomerToTextField(emailTF);
 		passwordTF = new JTextField(25);
+		passwordTF.setText(editedCustomer.password);
+		connectCustomerToTextField(passwordTF);
 		phoneTF = new JTextField(25);
+		phoneTF.setText(editedCustomer.phone);
+		connectCustomerToTextField(phoneTF);
 		
-		//format
-		Dimension textFieldDimension = userNameTF.getPreferredSize();
-		
-		Dimension profileDim = profileLabel.getPreferredSize();
-		Dimension usernameDim = userNameLabel.getPreferredSize();
-		Dimension fullDim = fullNameLabel.getPreferredSize();
-		Dimension mailDim = emailLabel.getPreferredSize();
-		Dimension passwordDim = passwordLabel.getPreferredSize();
-		Dimension phoneDim = phoneLabel.getPreferredSize();
-		Dimension paymentDim = paymentLabel.getPreferredSize();
-		
-		int verticalOffset = (myFrame.getHeight() - (profileDim.height + 6*(textFieldDimension.height + 10)))/2;
-		int horizontalOffset = (myFrame.getWidth() - (textFieldDimension.width + paymentDim.width + 10))/2;
-		int textFieldOffset = horizontalOffset + paymentDim.width + 10;
-		
-		profileLabel.setBounds((myFrame.getWidth() - profileDim.width) / 2, verticalOffset, profileDim.width + 10, profileDim.height);
-		verticalOffset += profileDim.height + 10;
-		userNameLabel.setBounds(horizontalOffset, verticalOffset + 1, usernameDim.width + 10, usernameDim.height);
-		userNameTF.setBounds(textFieldOffset, verticalOffset, textFieldDimension.width, textFieldDimension.height);
-		verticalOffset += usernameDim.height + 10;
-		fullNameLabel.setBounds(horizontalOffset, verticalOffset + 1, fullDim.width + 10, fullDim.height);
-		fullNameTF.setBounds(textFieldOffset, verticalOffset, textFieldDimension.width, textFieldDimension.height);
-		verticalOffset += fullDim.height + 10;
-		emailLabel.setBounds(horizontalOffset, verticalOffset + 1, mailDim.width + 10, mailDim.height);
-		emailTF.setBounds(textFieldOffset, verticalOffset, textFieldDimension.width, textFieldDimension.height);
-		verticalOffset += mailDim.height + 10;
-		passwordLabel.setBounds(horizontalOffset, verticalOffset + 1, passwordDim.width + 10, passwordDim.height);
-		passwordTF.setBounds(textFieldOffset, verticalOffset, textFieldDimension.width, textFieldDimension.height);
-		verticalOffset += passwordDim.height + 10;
-		phoneLabel.setBounds(horizontalOffset, verticalOffset + 1, phoneDim.width + 10, phoneDim.height);
-		phoneTF.setBounds(textFieldOffset, verticalOffset + 200, textFieldDimension.width, textFieldDimension.height);
-		verticalOffset += phoneDim.height + 10;
-		paymentLabel.setBounds(horizontalOffset, verticalOffset + 200, paymentDim.width, paymentDim.height);
-		
-		phoneTF.setText(Integer.toString(paymentLabel.getPreferredSize().height) + " " + Integer.toString(textFieldDimension.height));
-		
-		setLayout(new BorderLayout());
 		mainPane = new JPanel();
-		mainPane.setLayout(null);
-		mainPane.add(profileLabel);
-		mainPane.add(userNameLabel);
-		mainPane.add(userNameTF);
-		mainPane.add(fullNameLabel);
-		mainPane.add(fullNameTF);
-		mainPane.add(emailLabel);
-		mainPane.add(emailTF);
-		mainPane.add(passwordLabel);
-		mainPane.add(passwordTF);
-		mainPane.add(phoneLabel);
-		mainPane.add(phoneTF);
-		mainPane.add(paymentLabel);
-		mainPane.setPreferredSize(new Dimension(myFrame.getPreferredSize().width + 10, myFrame.getPreferredSize().height + 10));
+		mainPane.setLayout(new GridLayout(0,1));
 		
-		JScrollPane scroller = new JScrollPane();
-		scroller.setPreferredSize(new Dimension(myFrame.getPreferredSize().width-10, myFrame.getPreferredSize().height-10));
-		scroller.getViewport().add(mainPane);
-		add(scroller, BorderLayout.CENTER);
+		JPanel editProfileRow = new JPanel();
+		JPanel usernameRow = new JPanel();
+		JPanel fullnameRow = new JPanel();
+		JPanel emailRow = new JPanel();
+		JPanel passwordRow = new JPanel();
+		JPanel phoneRow = new JPanel();
+		
+		//int horizontalOffset = 
+		
+		mainPane.add(new JPanel());
+		editProfileRow.setLayout(new BorderLayout());
+		editProfileRow.add(cancelButton, BorderLayout.WEST);
+		JPanel centerPanel = new JPanel();
+		centerPanel.add(profileLabel);
+		editProfileRow.add(centerPanel, BorderLayout.CENTER);
+		editProfileRow.add(saveButton, BorderLayout.EAST);
+		mainPane.add(editProfileRow);
+		mainPane.add(new JPanel());
+		usernameRow.add(userNameLabel);
+		usernameRow.add(userNameTF);
+		mainPane.add(usernameRow);
+		fullnameRow.add(fullNameLabel);
+		fullnameRow.add(fullNameTF);
+		mainPane.add(fullnameRow);
+		emailRow.add(emailLabel);
+		emailRow.add(emailTF);
+		mainPane.add(emailRow);
+		passwordRow.add(passwordLabel);
+		passwordRow.add(new JLabel(" "));
+		passwordRow.add(passwordTF);
+		mainPane.add(passwordRow);
+		phoneRow.add(phoneLabel);
+		phoneRow.add(phoneTF);
+		mainPane.add(phoneRow);
+		
+		
+		if(editedCustomer.payments.length > 0) {
+				mainPane.add(paymentLabel);
+				for(int i = 0; i < editedCustomer.payments.length; i++) {
+					payment currentPayment = editedCustomer.payments[i];
+					
+					JPanel methodRow = new JPanel();
+					JLabel method = new JLabel("Method " + Integer.toString(i + 1));
+					JButton removeButton = new JButton("Delete");
+					removeButton.setBackground(Color.RED);
+					methodRow.add(method);
+					methodRow.add(removeButton);
+					mainPane.add(methodRow);
+					
+					JLabel accountLab = new JLabel("Account Number");
+					JTextField accTF = new JTextField(25);
+					accTF.setText(currentPayment.accountNumber);
+					connectCustomerToTextField(accTF, currentPayment, 1);
+					JPanel accountRow = new JPanel();
+					accountRow.add(accountLab);
+					accountRow.add(accTF);
+					mainPane.add(accountRow);
+					
+					JLabel nameLab = new JLabel("Name");
+					JTextField nameTF = new JTextField(25);
+					nameTF.setText(currentPayment.name);
+					connectCustomerToTextField(nameTF, currentPayment, 2);
+					JPanel nameRow = new JPanel();
+					nameRow.add(nameLab);
+					nameRow.add(nameTF);
+					mainPane.add(nameRow);
+					
+					JLabel expLab = new JLabel("Expiration Date");
+					JTextField expTF = new JTextField(25);
+					expTF.setText(currentPayment.expireDate);
+					connectCustomerToTextField(expTF, currentPayment, 3);
+					JPanel expRow = new JPanel();
+					expRow.add(expLab);
+					expRow.add(expTF);
+					mainPane.add(expRow);
+					
+					JLabel cvvLab = new JLabel("CVV");
+					JTextField cvvTF = new JTextField(25);
+					cvvTF.setText(currentPayment.cvv);
+					connectCustomerToTextField(cvvTF, currentPayment, 4);
+					JPanel cvvRow = new JPanel();
+					cvvRow.add(cvvLab);
+					cvvRow.add(cvvTF);
+					mainPane.add(cvvRow);
+					
+					JLabel addressOneLab = new JLabel("Address 1");
+					JTextField adrsOneTF = new JTextField(25);
+					adrsOneTF.setText(currentPayment.address1);
+					connectCustomerToTextField(adrsOneTF, currentPayment, 5);
+					JPanel addressOneRow = new JPanel();
+					addressOneRow.add(addressOneLab);
+					addressOneRow.add(adrsOneTF);
+					mainPane.add(addressOneRow);
+					
+					JLabel addressTwoLab = new JLabel("Address 2 (Optional)");
+					JTextField adrsTwoTF = new JTextField(25);
+					adrsTwoTF.setText(currentPayment.address2);
+					connectCustomerToTextField(adrsTwoTF, currentPayment, 6);
+					JPanel addressTwoRow = new JPanel();
+					addressTwoRow.add(addressTwoLab);
+					addressTwoRow.add(adrsTwoTF);
+					mainPane.add(addressTwoRow);
+					
+					JLabel cityLab = new JLabel("City");
+					JTextField cityTF = new JTextField(25);
+					cityTF.setText(currentPayment.city);
+					connectCustomerToTextField(cityTF, currentPayment, 7);
+					JPanel cityRow = new JPanel();
+					cityRow.add(cityLab);
+					cityRow.add(cityTF);
+					mainPane.add(cityRow);
+					
+					JLabel stateLab = new JLabel("State");
+					JTextField stateTF = new JTextField(25);
+					stateTF.setText(currentPayment.state);
+					connectCustomerToTextField(stateTF, currentPayment, 8);
+					JPanel stateRow = new JPanel();
+					stateRow.add(stateLab);
+					stateRow.add(stateTF);
+					mainPane.add(stateRow);
+					
+					JLabel zipLab = new JLabel("Zip Code");
+					JTextField zipTF = new JTextField(25);
+					zipTF.setText(currentPayment.zip);
+					connectCustomerToTextField(zipTF, currentPayment, 9);
+					JPanel zipRow = new JPanel();
+					zipRow.add(zipLab);
+					zipRow.add(zipTF);
+					mainPane.add(zipRow);
+					
+					mainPane.add(new JPanel());
+				}
+		}	
+		else
+			mainPane.add(new JPanel());
+		
+		JPanel addPaymentRow = new JPanel();
+		addPaymentRow.add(morePayment);
+		mainPane.add(addPaymentRow);
+		
+		mainPane.add(new JPanel());
+		
+		setSize(new Dimension(myFrame.getWidth(), myFrame.getHeight()));
+		this.getViewport().add(mainPane);
+		this.setVerticalScrollBarPolicy(VERTICAL_SCROLLBAR_AS_NEEDED);
+		this.setHorizontalScrollBarPolicy(HORIZONTAL_SCROLLBAR_AS_NEEDED);
+		
+		
 	}
 	
 	private class ButtonListener implements ActionListener{
 		public void actionPerformed(ActionEvent e) {
-			//tbd
-			if(e.getSource() == cancelButton)
-				editedCustomer.phone = "foo";
-			else if(e.getSource() == saveButton)
-				editedCustomer.email = "foo";
+			viewProfile newViewProfilePanel;
+			if(e.getSource() == cancelButton) {
+				
+				newViewProfilePanel = new viewProfile(myFrame, realCustomer, myMenu);
+				myFrame.remove(thisPanel);
+				myFrame.add(newViewProfilePanel);
+				myFrame.invalidate();
+				myFrame.validate();
+			}
+			else if(e.getSource() == saveButton) {
+				copyInformation(realCustomer, editedCustomer);
+				newViewProfilePanel = new viewProfile(myFrame, realCustomer, myMenu);
+				myFrame.remove(thisPanel);
+				myFrame.add(newViewProfilePanel);
+				myFrame.invalidate();
+				myFrame.validate();
+				
+			}
 		}
 	}
 	
 	public static void main(String[] args) {
 		JFrame testFrame = new JFrame("test frame profile");
-		testFrame.setSize(new Dimension(770, 485));
+		testFrame.setSize(new Dimension(1400, 800));
 		
+
 		customer testCustomer = new customer();
-		editProfile testSignup = new editProfile(testFrame, testCustomer);
-		
-		
-		
-		/*
-		JScrollPane testScroll = new JScrollPane();
-		JPanel testPanel = new JPanel();
-		for(int i = 0; i < 100; i++) {
-			JTextField newField = new JTextField(25);
-			testPanel.add(newField);
+		for(int i = 0; i < testCustomer.payments.length; i++) {
+			testCustomer.payments[i].accountNumber = Integer.toString(i).repeat(10);
+			testCustomer.payments[i].address1 = Integer.toString(i);
+			testCustomer.payments[i].address2 = Integer.toString(i);
+			testCustomer.payments[i].cardType = Integer.toString(i);
+			testCustomer.payments[i].city = Integer.toString(i);
+			testCustomer.payments[i].cvv = Integer.toString(i);
+			testCustomer.payments[i].expireDate = Integer.toString(i);
+			testCustomer.payments[i].name = Integer.toString(i);
+			testCustomer.payments[i].state = Integer.toString(i);
+			testCustomer.payments[i].zip = Integer.toString(i);
 		}
-		testScroll.setViewportView(testPanel);
-		//JScrollPane testScroll = new JScrollPane(testPanel, VERTICAL_SCROLLBAR_AS_NEEDED, HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		
-		JPanel containter = new JPanel();
-		containter.setLayout(new BorderLayout());
-		containter.add(testScroll, BorderLayout.CENTER);
-		testFrame.add(containter);
-		*/
+		menu testMenu = new menu();
+		editProfile testSignup = new editProfile(testFrame, testCustomer, testMenu);
 		
 		testFrame.add(testSignup);
-		
-		//testFrame.pack();
+		testFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		testFrame.setLocationRelativeTo(null);
-		testFrame.show();
+		testFrame.setVisible(true);
 	}
-
+	
+	private void copyInformation(customer destination, customer source) {
+		destination.email = source.email;
+		destination.fullname = source.fullname;
+		destination.password = source.password;
+		destination.phone = source.phone;
+		destination.username = source.username;
+		for(int i = 0; i < source.payments.length; i++) {
+			destination.payments[i].accountNumber = source.payments[i].accountNumber;
+			destination.payments[i].address1 = source.payments[i].address1;
+			destination.payments[i].address2 = source.payments[i].address2;
+			destination.payments[i].cardType = source.payments[i].cardType;
+			destination.payments[i].city = source.payments[i].city;
+			destination.payments[i].cvv = source.payments[i].cvv;
+			destination.payments[i].expireDate = source.payments[i].expireDate;
+			destination.payments[i].name = source.payments[i].name;
+			destination.payments[i].state = source.payments[i].state;
+			destination.payments[i].zip = source.payments[i].zip;
+		}
+	}
+	
+	private void connectCustomerToTextField(JTextField textfield) {
+		textfield.getDocument().addDocumentListener(new DocumentListener() {
+			@Override
+			public void insertUpdate(DocumentEvent e) {updateCustomer();}
+			@Override
+			public void removeUpdate(DocumentEvent e) {updateCustomer();}
+			@Override
+			public void changedUpdate(DocumentEvent e) {updateCustomer();}
+			public void updateCustomer() {
+				
+				if(textfield == userNameTF)
+					editedCustomer.username = textfield.getText();
+				else if(textfield == fullNameTF)
+					editedCustomer.fullname = textfield.getText();
+				else if(textfield == emailTF)
+					editedCustomer.email = textfield.getText();
+				else if(textfield == passwordTF)
+					editedCustomer.password = textfield.getText();
+				else if(textfield == phoneTF)
+					editedCustomer.phone = textfield.getText();
+			}
+		});
+	}
+	
+	private void connectCustomerToTextField(JTextField textfield, payment paymentComp, int comp) {
+		textfield.getDocument().addDocumentListener(new DocumentListener() {
+			@Override
+			public void insertUpdate(DocumentEvent e) {
+				updatePayment();
+			}
+			@Override
+			public void removeUpdate(DocumentEvent e) {
+				updatePayment();	
+			}
+			@Override
+			public void changedUpdate(DocumentEvent e) {
+				updatePayment();	
+			}
+			public void updatePayment() {
+				if(comp == 1)
+					paymentComp.accountNumber = textfield.getText();
+				else if(comp == 2)
+					paymentComp.name = textfield.getText();
+				else if(comp == 3)
+					paymentComp.expireDate = textfield.getText();
+				else if(comp == 4)
+					paymentComp.cvv = textfield.getText();
+				else if(comp == 5)
+					paymentComp.address1 = textfield.getText();
+				else if(comp == 6)
+					paymentComp.address2 = textfield.getText();
+				else if(comp == 7)
+					paymentComp.city = textfield.getText();
+				else if(comp == 8)
+					paymentComp.state = textfield.getText();
+				else if(comp == 9)
+					paymentComp.zip = textfield.getText();
+			}
+		});
+	}
 }
 
