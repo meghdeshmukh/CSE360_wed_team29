@@ -79,7 +79,7 @@ public class customerFoodInfo extends JPanel{
 		informationRow.add(new JLabel());
 		//TODO picture
 		try {
-			foodPic = ImageIO.read(new File("C:\\Users\\gmota\\Pictures\\AruShaggy.png"));
+			foodPic = ImageIO.read(new File("path to picture"));
 			JLabel picLabel = new JLabel(new ImageIcon(foodPic));
 			informationRow.add(picLabel);
 		} catch (IOException e1) {
