@@ -21,8 +21,7 @@ public class signup extends JPanel{
 	private JLabel passwordLabel;
 	private JLabel confirmPasswordLabel;
 	private JLabel phoneLabel;
-	private JLabel formatError;
-	private JLabel passwordError;
+	private JLabel error;
 	
 	//textfields
 	private JTextField usernameTF;
@@ -41,8 +40,7 @@ public class signup extends JPanel{
 		Font mainFont = new Font("Futura", Font.ITALIC, 25);
 		Font smallFont = new Font("Futura", Font.ITALIC, 13);
 		myframe = myFrame;
-		thisPanel = this;
-		setBackground(new Color(139,196,235));     		
+		thisPanel = this;    		
 		//setPreferredSize(new Dimension(770, 485)); 	
 		setPreferredSize(new Dimension(myframe.getWidth(), myframe.getHeight()));
 		
@@ -73,14 +71,10 @@ public class signup extends JPanel{
 		phoneLabel.setFont(mainFont);
 		
 		//setup error Labels
-		formatError = new JLabel("Ensure phone and email are in correct format");
-		formatError.setVisible(false);
-		formatError.setFont(smallFont);
-		formatError.setForeground(Color.RED);
-		passwordError = new JLabel("Passwords do not match");
-		passwordError.setVisible(false);
-		passwordError.setFont(smallFont);
-		passwordError.setForeground(Color.RED);
+		error = new JLabel("");
+		error.setVisible(false);
+		error.setFont(smallFont);
+		error.setForeground(Color.RED);
 		
 		//setup textFields
 		usernameTF = new JTextField( 25);
@@ -99,63 +93,52 @@ public class signup extends JPanel{
 		// TF are 279 W and 20 H
 		// signup label is 79 W and 33 H
 		// username label is 117 W and 33 H
-		setLayout(null);
-		Dimension sizeSignLabel = signupLabel.getPreferredSize();
-		signupLabel.setBounds(345,60, sizeSignLabel.width, sizeSignLabel.height);
+		setLayout(new GridLayout(0,1));
 		
-		Dimension sizeUserLabel = usernameLabel.getPreferredSize();
-		usernameLabel.setBounds(140, 105, sizeUserLabel.width, sizeUserLabel.height);
-		Dimension sizeUserTF = usernameTF.getPreferredSize();
-		usernameTF.setBounds(360, 105 + 10, sizeUserTF.width, sizeUserTF.height);
+		JPanel row = new JPanel();
+		row.add(signupLabel);
+		add(row);
 		
-		Dimension sizeMailLabel = emailLabel.getPreferredSize();
-		emailLabel.setBounds(140, 140, sizeMailLabel.width, sizeMailLabel.height);
-		Dimension sizeMailTF = emailTF.getPreferredSize();
-		emailTF.setBounds(360, 140 + 10, sizeMailTF.width, sizeMailTF.height);
+		add(new JLabel());
 		
-		Dimension sizePWLabel = passwordLabel.getPreferredSize();
-		passwordLabel.setBounds(140, 175, sizePWLabel.width, sizePWLabel.height);
-		Dimension sizePWTF = passwordTF.getPreferredSize();
-		passwordTF.setBounds(360, 175 + 10, sizePWTF.width, sizePWTF.height);
+		row = new JPanel();
+		row.add(usernameLabel);
+		row.add(usernameTF);
+		add(row);
 		
-		Dimension sizeConfirmPWLabel = confirmPasswordLabel.getPreferredSize();
-		confirmPasswordLabel.setBounds(140, 210, sizeConfirmPWLabel.width, sizeConfirmPWLabel.height);
-		Dimension sizeConfirmPWTF = confirmPasswordTF.getPreferredSize();
-		confirmPasswordTF.setBounds(360, 210 + 10, sizeConfirmPWTF.width, sizeConfirmPWTF.height);
-
-		Dimension sizePhoneLabel = phoneLabel.getPreferredSize();
-		phoneLabel.setBounds(140, 245, sizePhoneLabel.width, sizePhoneLabel.height);
-		Dimension sizePhoneTF = phoneTF.getPreferredSize();
-		phoneTF.setBounds(360, 245 + 10, sizePhoneTF.width, sizePhoneTF.height);
+		row = new JPanel();
+		row.add(emailLabel);
+		row.add(emailTF);
+		add(row);
 		
-		Dimension sizeTOS = tos.getPreferredSize();
-		tos.setBounds(262, 285, sizeTOS.width, sizeTOS.height);
+		row = new JPanel();
+		row.add(passwordLabel);
+		row.add(passwordTF);
+		add(row);
 		
-		Dimension sizeFormatError = formatError.getPreferredSize();
-		formatError.setBounds(254, 320, sizeFormatError.width, sizeFormatError.height);
-		Dimension sizePasswordError = passwordError.getPreferredSize();
-		passwordError.setBounds(313,320, sizePasswordError.width, sizePasswordError.height);
+		row = new JPanel();
+		row.add(confirmPasswordLabel);
+		row.add(confirmPasswordTF);
+		add(row);
 		
-		submitButton.setBounds(197, 350, buttonDimension.width, buttonDimension.height);
-		cancelButton.setBounds(484, 350, buttonDimension.width, buttonDimension.height);
+		row = new JPanel();
+		row.add(phoneLabel);
+		row.add(phoneTF);
+		add(row);
 		
-		//add elements
-		add(signupLabel);
-		add(usernameLabel);
-		add(usernameTF);
-		add(emailLabel);
-		add(emailTF);
-		add(passwordLabel);
-		add(passwordTF);
-		add(confirmPasswordLabel);
-		add(confirmPasswordTF);
-		add(phoneLabel);
-		add(phoneTF);
-		add(tos);
-		add(formatError);
-		add(passwordError);
-		add(submitButton);
-		add(cancelButton);
+		row = new JPanel();
+		row.add(tos);
+		add(row);
+		
+		row = new JPanel();
+		row.add(error);
+		add(row);
+		
+		row = new JPanel();
+		row.add(submitButton);
+		row.add(new JLabel("           "));
+		row.add(cancelButton);
+		add(row);
 	} //signup()
 	
 	/*
@@ -181,8 +164,7 @@ public class signup extends JPanel{
 			}
 			
 			else if(e.getSource() == submitButton) {
-				formatError.setVisible(false);
-				passwordError.setVisible(false);
+				error.setVisible(false);
 				
 				String usernameInput = usernameTF.getText();
 				String emailInput = emailTF.getText();
@@ -221,14 +203,33 @@ public class signup extends JPanel{
 				else
 					phoneFormat = false;
 				
-				if (!passwordInput.equals(confirmPasswordInput) || passwordInput.equals(""))
-					passwordError.setVisible(true);
-				else if(!emailFormat || !phoneFormat)
-					formatError.setVisible(true);
+				if (!passwordInput.equals(confirmPasswordInput) || passwordInput.equals("")) {
+					error.setVisible(true);
+					error.setText("Passwords do not match");
+				}
+				else if(!emailFormat || !phoneFormat) {
+					error.setVisible(true);
+					error.setText("Formatting is incorrect");
+				}
+				else if(!tos.isSelected()) {
+					error.setVisible(true);
+					error.setText("Please agree to our Terms of Service");
+				}
 				else {
 					//create a new customer and insert into database
 					//TBD
 					//go to menu
+					menu testMenu = new menu();
+					customer testCustomer = new customer();
+					testCustomer.email = emailInput;
+					testCustomer.username = usernameInput;
+					testCustomer.password = passwordInput;
+					testCustomer.phone = phoneInput;
+					customerMenu testView = new customerMenu(myframe, testCustomer, testMenu);
+					myframe.remove(thisPanel);
+					myframe.add(testView);
+					myframe.invalidate();
+					myframe.validate();
 				}
 				
 			}//submitButton
