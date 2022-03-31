@@ -11,17 +11,24 @@ public class Application {
     private Owner owner;
     private List<Order> orders;
 
-    public Application(Owner owner) {
-        this.owner = owner;
+    public Application() {
         users = new ArrayList<User>();
         orders = new ArrayList<Order>();
+    }
+
+    public void setOwner(Owner owner) throws Exception {
+        if (this.owner == null) {
+            this.owner = owner;
+        } else {
+            throw new Exception("Owner already exists");
+        }
     }
 
     public Owner getOwner() {
         return this.owner;
     }
 
-    public User[] getUsers() {
+    public List<User> getUsers() {
         return users;
     }
 
@@ -29,7 +36,7 @@ public class Application {
         users.add(user);
     }
 
-    public void addMenu(Menu menu) {
+    public void addMenu(Menu menu) throws Exception {
         if (this.menu == null) {
             this.menu = menu;
         } else {
