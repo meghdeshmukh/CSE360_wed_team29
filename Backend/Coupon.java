@@ -1,4 +1,4 @@
-import java.util.ArrayList;
+import java.util.*;
 
 public class Coupon {
 	private Customer customer;
@@ -12,6 +12,10 @@ public class Coupon {
 
 	public Float getAmount() {
 		return this.amount;
+	}
+
+	public Customer getCustomer() {
+		return this.customer;
 	}
 
 }

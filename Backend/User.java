@@ -1,4 +1,4 @@
-import java.util.Scanner;
+
 
 public class User {
 	private String email;
@@ -6,26 +6,16 @@ public class User {
 
 	public User(String email, String password) {
 		this.email = email;
-		this.password = verifyPassword(password);
+		this.password = password;
 	}
 
-	/*
-	 * public Food search(String query) {
-	 * 	Get the menu from application and search through food from menu to find a match of the query
-	 * }
-	 */
-	private String verifyPassword(String password) {
-		int length = password.length();
-		if (length >= 8) {
-			return password;
+	public Food query(String query, Menu menu) {
+		for (int i = 0; i < menu.getItems().size(); i++) {
+			if (query.equals(menu.getItems().get(i).getName())) {
+				return menu.getItems().get(i);
+			}
 		}
-		else {
-			Scanner reader = new Scanner(System.in);
-			System.out.println("Password is too Short! Enter a new Password (Password has to be greater than 8 characters): ");
-			String input = reader.nextLine();
-			reader.close();
-			return verifyPassword(input);
-		}
+		return null;
 	}
 
 	public Boolean verifyLogin(String email, String password) {
@@ -42,16 +32,6 @@ public class User {
 	}
 
 	public void changePassword(String password) {
-		Scanner reader = new Scanner(System.in);
-		System.out.println("Enter your current password: ");
-		String input = reader.nextLine();
-		if (input.equals(this.password)) {
-			this.password = verifyPassword(password);
-		}
-		reader.close();
-	}
-
-	public void ChangeForcePassword(String password) {
 		this.password = password;
 	}
 
@@ -59,14 +39,5 @@ public class User {
 		return this.password;
 	}
 
-	/*
-	 * public static void main(String[] args) { User myUser = new
-	 * User("nickfullerton2285@gmail.com", "Slimt");
-	 * System.out.println(myUser.getEmail());
-	 * System.out.println(myUser.getPassword()); myUser.changePassword("bob");
-	 * System.out.println(myUser.getPassword());
-	 *
-	 * }
-	 */
 }
 

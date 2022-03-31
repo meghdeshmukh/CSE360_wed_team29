@@ -1,5 +1,4 @@
-import java.io.*;
-import java.util.ArrayList;
+import java.util.*;
 
 public class Customer extends User{
 
@@ -8,8 +7,8 @@ public class Customer extends User{
 	private String name;
 	private Boolean isGuest;
 	private Cart cart;
-	private ArrayList<Coupon> coupons = new ArrayList<Coupon>();
-	//private Payment payment = payment[]
+	private List<Coupon> coupons;
+	private List<Payment> payments;
 
 	public Customer (String email, String password, String username, String phone, String name) {
 		super(email, password);
@@ -22,7 +21,7 @@ public class Customer extends User{
 
 	public void register(String email, String password, String username, String phone, String name) {
 		this.changeEmail(email);
-		this.ChangeForcePassword(password);
+		this.changePassword(password);
 		this.changeUsername(username);
 		this.changePhone(phone);
 		this.changeName(name);
@@ -33,47 +32,60 @@ public class Customer extends User{
 		this.username = username;
 	}
 
-	public void changePhone(String phone) {
-		this.phone = phone;
-	}
-
-	public void changeName(String name) {
-		this.name = name;
-	}
-
 	public String getUsername() {
 		return this.username;
+	}
+
+	public void changePhone(String phone) {
+		this.phone = phone;
 	}
 
 	public String getPhone() {
 		return this.phone;
 	}
 
+	public void changeName(String name) {
+		this.name = name;
+	}
+
 	public String getName() {
 		return this.name;
+	}
+
+	public boolean getIsGuest() {
+		return this.isGuest;
 	}
 
 	public void addCoupon(Coupon coupon) {
 		this.coupons.add(coupon);
 	}
 
-	public void viewCoupons() {
-		for (int i = 0; i < this.coupons.size(); i++) {
-			System.out.println(this.coupons.get(i).getAmount());
-		}
+	public List<Coupon> getCoupons() {
+		return this.coupons;
 	}
 
-	public void addCart(String name, Float amount) {
-		this.cart.addToCart(name, amount);
+	public void addCart(Food food) {
+		this.cart.addToCart(food);
 	}
 
-	public void deleteCart(String name, Float amount) {
-		this.cart.deleteFromCart(name, amount);;
+	public void deleteCart(Food food) {
+		this.cart.deleteFromCart(food);;
 	}
 
-	public void viewCart() {
-		System.out.println(this.cart.getItems());
-		System.out.println(this.cart.getTotal());
+	public Cart getCart() {
+		return this.cart;
+	}
+
+	public void addPayment(Payment payment) {
+		this.payments.add(payment);
+	}
+
+	public void removePayment(Payment payment) {
+		this.payments.remove(payment);
+	}
+
+	public List<Payment> getPayments() {
+		return this.payments;
 	}
 
 	/*
@@ -93,48 +105,19 @@ public class Customer extends User{
 	 *   }
 	 */
 
-	/*
-	 * public checkout() {
-	 *  if isGuest
-	 *   enter name and createPayment()
-	 *  else
-	 *   selectPayment()
-	 *  }
-	 */
-
-	/*
-	 * public Payment selectPayment() {
-	 *  select payment and return
-	 * }
-	 */
-
-	/* public void createPayment() {
-	 * create a payment and return it
-	 */
-
-	public static void main(String[] args) {
-		Customer myCustomer = new Customer("Guest", "00000000", "Guest", "Guest", "Guest");
-		Owner owner = new Owner("nlfuller@asu.edu", "Iamtheowner");
-		myCustomer.register("nickfullerton2285@gmail.com", "Slimthug2285", "d1nick", "2815202266", "Nick Fullerton");
-		System.out.println(myCustomer.getEmail());
-		System.out.println(myCustomer.getPassword());
-		System.out.println(myCustomer.getName());
-		System.out.println(myCustomer.getUsername());
-		System.out.println(myCustomer.getPhone());
-
-		myCustomer.viewCoupons();
-		owner.giveCoupon(myCustomer, 10.0f);
-		myCustomer.viewCoupons();
-
-		myCustomer.viewCart();
-		myCustomer.addCart("chicken", 20.0f);
-		myCustomer.addCart("yogurt", 5.0f);
-		myCustomer.addCart("chicken", 20.0f);
-		myCustomer.addCart("yogurt", 5.0f);
-		myCustomer.addCart("yogurt", 5.0f);
-		myCustomer.viewCart();
-
-		myCustomer.deleteCart("yogurt", 5.0f);
-		myCustomer.viewCart();
+	public Order customerCheckout(Payment payment) {
+		Order order = new Order(this);
+		order.setPayment(payment);
+		order.setPrice(this.cart.getTotal());
+		return order;
 	}
+
+	public Order guestCheckout(String cardName, String cardType, String accountNumber, String cardHolderName, String expireDate, String address1, String address2, String city, String state, int zip) {
+		Order order = new Order(this);
+		Payment payment = new Payment(cardName, cardType, accountNumber, cardHolderName, expireDate, address1, address2, city, state, zip);
+		order.setPayment(payment);
+		order.setPrice(this.cart.getTotal());
+		return order;
+	}
+
 }
