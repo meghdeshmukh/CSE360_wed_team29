@@ -20,11 +20,11 @@ public class customerMenu extends JPanel{
 	
 	JTextField search = new JTextField(50);
 	
-	Font mainFont = new Font("Futura", Font.ITALIC, 25);
+	Font mainFont = new Font("Futura", Font.PLAIN, 25);
 	Font mediumFont = new Font("Futura", Font.PLAIN ,18);
 	Font smallFont = new Font("Futura", Font.ITALIC, 13);
 	
-	Dimension buttonDimension = new Dimension(90,30);
+	Dimension buttonDimension = new Dimension(120,50);
 	
 	public customerMenu(JFrame frame, customer customer, menu menu) {
 		myFrame = frame;
@@ -33,6 +33,7 @@ public class customerMenu extends JPanel{
 		
 		profile = new JButton(myCustomer.username.substring(0, 1));
 		profile.setFont(mainFont);
+		//profile.setSh
 		profile.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -45,18 +46,18 @@ public class customerMenu extends JPanel{
 		});
 		
 		cart = new JButton("Cart: " + Integer.toString(customer.cart.items.length));
-		cart.setSize(buttonDimension);
+		cart.setFont(mediumFont);
 		cart.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 			}
 		});
 		cost = new JLabel("$" + String.format("%.2f", customer.cart.total));
-		cost.setFont(mediumFont);
+		cost.setFont(mainFont);
 		
 		search.setFont(mediumFont);
 		
-		setLayout(new GridLayout(0,1));
+		setLayout(new BorderLayout());
 		
 		JPanel topRow = new JPanel(new BorderLayout());
 		JPanel left = new JPanel();
@@ -67,10 +68,18 @@ public class customerMenu extends JPanel{
 		right.add(cart);
 		topRow.add(right, BorderLayout.EAST);
 		topRow.add(search, BorderLayout.SOUTH);
+		JLabel welcome = new JLabel("Welcome to Restaurant!");
+		//JLabel select = new JLabel("Select Items Below");
+		welcome.setFont(mainFont);
+		//select.setFont(mainFont);
+		JPanel indent = new JPanel();
+		indent.add(welcome);
+		//indent.add(select);
+		topRow.add(indent, BorderLayout.CENTER);
 		JPanel searchRow = new JPanel();
 		searchRow.add(search);
 		topRow.add(searchRow, BorderLayout.SOUTH);
-		add(topRow);
+		add(topRow, BorderLayout.NORTH);
 		
 		JScrollPane menuScroll = new JScrollPane();
 		menuScroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
@@ -79,7 +88,7 @@ public class customerMenu extends JPanel{
 		menuItems.setLayout(new BoxLayout(menuItems, BoxLayout.Y_AXIS));
 		updateMenu(menuItems);
 		menuScroll.getViewport().add(menuItems);
-		add(menuScroll);
+		add(menuScroll, BorderLayout.CENTER);
 		
 		search.getDocument().addDocumentListener(new DocumentListener() {
 			@Override
@@ -101,13 +110,12 @@ public class customerMenu extends JPanel{
 	public void updateMenu(JPanel pane) {
 		pane.removeAll();
 		Border border = new LineBorder(Color.BLACK, 4, true);
+		int unmatched = 0;
 		for(int i = 0; i < myMenu.numItems; i++) {
 			if(myMenu.foodItems[i].name.contains(search.getText()))
 			{
 				food theFood = myMenu.foodItems[i];
 				JPanel row = new JPanel(new BorderLayout());
-				row.setSize(pane.getWidth(), (int) buttonDimension.getHeight());
-				row.setBackground(Color.cyan);
 				row.setBorder(border);
 				JLabel name = new JLabel(theFood.name);
 				name.setFont(mediumFont);
@@ -136,15 +144,31 @@ public class customerMenu extends JPanel{
 				
 				row.add(name, BorderLayout.WEST);
 				
-				JPanel right = new JPanel();
+				JPanel right = new JPanel(new GridLayout(1,0));
 				right.add(price);
 				right.add(details);
 				right.add(add);
 				row.add(right, BorderLayout.EAST);
 				pane.add(row);
 			}
+			else
+				unmatched++;
 		}
-		pane.invalidate();
-		pane.validate();
+		for(int i = 0; i < unmatched; i++) {
+			JPanel row = new JPanel(new BorderLayout());
+			row.setBorder(border);
+			JButton nullButton = new JButton("NULL");			
+			nullButton.setFont(mediumFont);
+			nullButton.setVisible(false);
+			JPanel right = new JPanel();
+			right.add(nullButton);
+			row.add(right, BorderLayout.EAST);
+			pane.add(row);
+		}
+		
+		for(int i = 0; i < 2; i++){
+			pane.invalidate();
+			pane.validate();
+		}
 	}
 }
