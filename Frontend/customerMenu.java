@@ -165,10 +165,7 @@ public class customerMenu extends JPanel{
 			row.add(right, BorderLayout.EAST);
 			pane.add(row);
 		}
-		
-		for(int i = 0; i < 2; i++){
-			pane.invalidate();
-			pane.validate();
-		}
+		myPanel.invalidate();
+		myPanel.validate();
 	}
 }
