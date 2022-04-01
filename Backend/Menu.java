@@ -9,7 +9,7 @@ public class Menu {
     private List<Food> foodItems;
 
     public Menu() {
-       this.numItems = 0;
+        this.numItems = 0;
         this.foodItems = new ArrayList<Food>();
     }
 
