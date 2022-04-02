@@ -6,6 +6,7 @@ public class Cart {
 
 	public Cart() {
 		this.total = 0.0;
+		items = new ArrayList<Food>();
 	}
 
 	public void addToCart(Food food) {
