@@ -24,6 +24,7 @@ public class Customer extends User{
 		super("", "");
 		this.isGuest = true;
 		this.cart = new Cart();
+		this.payments = new ArrayList<Payment>();
 	}
 
 	public void register(String email, String password, String username, String phone, String name) {
