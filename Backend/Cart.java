@@ -1,11 +1,11 @@
 import java.util.*;
 public class Cart {
 
-	private Float total;
+	private Double total;
 	private List<Food> items;
 
 	public Cart() {
-		this.total = 0.0f;
+		this.total = 0.0;
 	}
 
 	public void addToCart(Food food) {
@@ -20,7 +20,7 @@ public class Cart {
 		}
 	}
 
-	public Float getTotal() {
+	public Double getTotal() {
 		return this.total;
 	}
 

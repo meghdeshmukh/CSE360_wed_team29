@@ -7,6 +7,10 @@ public class Owner extends User {
 	{
 		super(email, password);
 	}
+
+	public Owner() {
+		super("", "");
+	}
 	/*
 	 * public void viewCustomerView() {
 	 * 	view customer view
@@ -41,7 +45,7 @@ public class Owner extends User {
 		}
 	}
 
-	 public void giveCoupon(Customer customer, Float amount) {
+	 public void giveCoupon(Customer customer, Double amount) {
 		 Coupon newCoupon = new Coupon(customer, amount);
 	 }
 

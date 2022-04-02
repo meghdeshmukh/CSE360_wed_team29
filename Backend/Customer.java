@@ -19,6 +19,12 @@ public class Customer extends User{
 		this.cart = new Cart();
 	}
 
+	public Customer() {
+		super("", "");
+		this.isGuest = true;
+		this.cart = new Cart();
+	}
+
 	public void register(String email, String password, String username, String phone, String name) {
 		this.changeEmail(email);
 		this.changePassword(password);

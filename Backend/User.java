@@ -9,6 +9,11 @@ public class User {
 		this.password = password;
 	}
 
+	public User() {
+		this.email = null;
+		this.password = null;
+	}
+
 	public Food query(String query, Menu menu) {
 		for (int i = 0; i < menu.getItems().size(); i++) {
 			if (query.equals(menu.getItems().get(i).getName())) {

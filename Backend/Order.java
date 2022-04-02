@@ -6,7 +6,7 @@ Code is currently untested and unfinished due to non-integration
 public class Order {
     private Customer customer;
     private Payment payment;
-    private Float totalPrice;
+    private Double totalPrice;
 
     public Order(Customer customer) {
         this.customer = customer;
@@ -20,11 +20,11 @@ public class Order {
         this.payment = payment;
     }
 
-    public Float getPrice() {
+    public Double getPrice() {
         return this.totalPrice;
     }
 
-    public void setPrice(Float newPrice) {
+    public void setPrice(Double newPrice) {
         this.totalPrice = newPrice;
     }
 }

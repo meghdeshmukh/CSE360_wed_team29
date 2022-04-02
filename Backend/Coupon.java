@@ -2,15 +2,15 @@ import java.util.*;
 
 public class Coupon {
 	private Customer customer;
-	private Float amount;
+	private Double amount;
 
-	public Coupon(Customer customer, Float amount) {
+	public Coupon(Customer customer, Double amount) {
 		this.customer = customer;
 		this.amount = amount;
 		this.customer.addCoupon(this);
 	}
 
-	public Float getAmount() {
+	public Double getAmount() {
 		return this.amount;
 	}
 
