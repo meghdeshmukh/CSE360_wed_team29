@@ -17,6 +17,7 @@ public class Customer extends User{
 		this.name = name;
 		this.isGuest = true;
 		this.cart = new Cart();
+		this.payments = new ArrayList<Payment>();
 	}
 
 	public Customer() {
