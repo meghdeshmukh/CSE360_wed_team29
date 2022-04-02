@@ -8,10 +8,9 @@ Code is currently untested and unfinished due to non-integration
  * change log
  * added accessor functions
  * added mutator functions
- * removed cardName function. No use. Replaced with cvv
  */
 public class Payment {
-	private String cardName;
+    private String cardName;
     private String cardType;
     private String accountNumber;
     private String cardHolderName;
