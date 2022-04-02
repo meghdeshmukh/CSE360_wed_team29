@@ -3,15 +3,22 @@ Author: Megh Deshmukh in conjunction with CSE 360 Wednesday Team 29
 
 Code is currently untested and unfinished due to non-integration
 */
+
+/*
+ *Change Log
+ *price Float -> Double 
+ */
+
+
 import java.util.*;
 public class Food {
     private String imgPath;
     private String name;
     private String[] ingredients;
-    private Float price;
+    private Double price;
     private int calories;
 
-    public Food(String name, String imgPath, String[] ingredients, Float price, int calories) {
+    public Food(String name, String imgPath, String[] ingredients, Double price, int calories) {
         this.imgPath = imgPath;
         this.name = name;
         this.ingredients =  ingredients;
@@ -27,7 +34,7 @@ public class Food {
         return this.ingredients;
     }
 
-    public Float getPrice() {
+    public Double getPrice() {
         return this.price;
     }
 
@@ -38,4 +45,6 @@ public class Food {
     public String getImg() {
         return this.imgPath;
     }
+    
+
 }

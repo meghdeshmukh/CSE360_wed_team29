@@ -15,7 +15,23 @@ public class Application {
         users = new ArrayList<User>();
         orders = new ArrayList<Order>();
     }
-
+    
+    /*
+    public Customer retriveCustomer(String username, String password) {
+    	//search list of users
+    	//return Customer Object that matches
+    	//if there is no Customer that matches, null
+    	
+    	//in sign up
+    	//check, see if null, if null, he'll 
+    }
+    
+    
+    public boolean doesExist(String username) {
+    	//matches username
+    	//true or false
+    }
+	*/
     public void setOwner(Owner owner) throws Exception {
         if (this.owner == null) {
             this.owner = owner;

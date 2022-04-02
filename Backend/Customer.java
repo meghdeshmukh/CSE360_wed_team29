@@ -1,6 +1,12 @@
 import java.io.*;
 import java.util.ArrayList;
 
+/*
+ * Change log
+ * changed (string, string) parameters to (food) parameters
+ * added the Payment class to customer, associated Accessor function
+ */
+
 public class Customer extends User{
 
 	private String username;
@@ -8,26 +14,45 @@ public class Customer extends User{
 	private String name;
 	private Boolean isGuest;
 	private Cart cart;
-	private ArrayList<Coupon> coupons = new ArrayList<Coupon>();
-	//private Payment payment = payment[]
+	private ArrayList<Double> coupons = new ArrayList<Double>();
+	//an array coupon of each coupon 
+	private ArrayList<Payment> payments = new ArrayList<Payment>();
 
 	public Customer (String email, String password, String username, String phone, String name) {
 		super(email, password);
 		this.username = username;
 		this.phone = phone;
 		this.name = name;
-		this.isGuest = true;
+		this.isGuest = false;
 		this.cart = new Cart();
 	}
 
+	
+	public Customer() {
+		super("", "");
+		this.isGuest = true;
+		this.cart = new Cart();
+	}
+	
+	public boolean isGuest() {
+		return isGuest;
+	}
+	
+	/*
 	public void register(String email, String password, String username, String phone, String name) {
 		this.changeEmail(email);
-		this.ChangeForcePassword(password);
+		this.changeForcePassword(password);
 		this.changeUsername(username);
 		this.changePhone(phone);
 		this.changeName(name);
 		this.isGuest = false;
 	}
+	*/
+	
+	//GUI will create customer object
+	//retrive the values from the inputs
+	//set the values for the customer
+	//
 
 	public void changeUsername(String username) {
 		this.username = username;
@@ -53,29 +78,49 @@ public class Customer extends User{
 		return this.name;
 	}
 
-	public void addCoupon(Coupon coupon) {
+	public void addCoupon(Double coupon) {
 		this.coupons.add(coupon);
 	}
+	
+	public void useCoupon(int index) {
+		this.coupons.remove(index);
+	}
 
+	/*
 	public void viewCoupons() {
 		for (int i = 0; i < this.coupons.size(); i++) {
 			System.out.println(this.coupons.get(i).getAmount());
 		}
 	}
+	*/
 
-	public void addCart(String name, Float amount) {
-		this.cart.addToCart(name, amount);
+	public void addCart(Food food) {
+		this.cart.addToCart(food);
 	}
 
-	public void deleteCart(String name, Float amount) {
-		this.cart.deleteFromCart(name, amount);;
+	public void deleteCart(Food food) {
+		this.cart.deleteFromCart(food);;
 	}
 
+	/*
 	public void viewCart() {
 		System.out.println(this.cart.getItems());
 		System.out.println(this.cart.getTotal());
 	}
+	*/
+	
+	public Cart getCart() {
+		return cart;
+	}
+	
+	public ArrayList<Payment> getPayments() {
+		return payments;
+	}
 
+	
+	public ArrayList<Double> getCoupons(){
+		return coupons;
+	}
 	/*
 	 * public void viewMenu() {
 	 *  view menu GUI
@@ -111,7 +156,7 @@ public class Customer extends User{
 	/* public void createPayment() {
 	 * create a payment and return it
 	 */
-
+/*
 	public static void main(String[] args) {
 		Customer myCustomer = new Customer("Guest", "00000000", "Guest", "Guest", "Guest");
 		Owner owner = new Owner("nlfuller@asu.edu", "Iamtheowner");
@@ -137,4 +182,5 @@ public class Customer extends User{
 		myCustomer.deleteCart("yogurt", 5.0f);
 		myCustomer.viewCart();
 	}
+	*/
 }

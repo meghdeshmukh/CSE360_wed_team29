@@ -1,12 +1,22 @@
 import java.util.Scanner;
 
+/*
+ * change log
+ * verifyPassword interferes with GUI. Removing and implementing in GUI screen. User() edited to accommodate.
+ * changePassword changed to be better interact with GUI
+ */
+
 public class User {
 	private String email;
 	private String password;
 	
 	public User(String email, String password) {
 		this.email = email;
-		this.password = verifyPassword(password);
+		this.password = password;
+	}
+	
+	public User() {
+		email = null;
 	}
 	
 	/* 
@@ -14,6 +24,8 @@ public class User {
 	 * 	Get the menu from application and search through food from menu to find a match of the query
 	 * }
 	 */
+	
+	/*
 	private String verifyPassword(String password) {
 		int length = password.length();
 		if (length >= 8) {
@@ -25,8 +37,9 @@ public class User {
 			String input = reader.nextLine();
 			return verifyPassword(input);
 		}
-		
+	
 	}
+	*/
 	
 	public Boolean verifyLogin(String email, String password) {
 		// check database to verify that email and password exit and match
@@ -41,16 +54,13 @@ public class User {
 		return this.email;
 	}
 	
-	public void changePassword(String password) {
-		Scanner reader = new Scanner(System.in);
-		System.out.println("Enter your current password: ");
-		String input = reader.nextLine();
-		if (input.equals(this.password)) {
-			this.password = verifyPassword(password);
+	public void changePassword(String currentPassword, String password) {
+		if (currentPassword.equals(this.password)) {
+			this.password = password;
 		}
 	}
 	
-	public void ChangeForcePassword(String password) {
+	public void changeForcePassword(String password) {
 		this.password = password;
 	}
 	
@@ -68,4 +78,3 @@ public class User {
 	 * }
 	 */
 }
-

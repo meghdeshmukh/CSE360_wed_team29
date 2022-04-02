@@ -1,33 +1,39 @@
 import java.util.ArrayList;
+
+/*
+ * Change Log
+ * Float to Double
+ */
+
 public class Cart {
 
-	private Float total;
-	private ArrayList<String> items = new ArrayList<String>();
+	private Double total;
+	private ArrayList<Food> items = new ArrayList<Food>();
 
 	public Cart() {
-		this.total = 0.0f;
+		this.total = 0d;
 	}
 
-	public void addToCart(String name, Float amount) {
-		this.items.add(name);
-		this.total += amount;
+	public void addToCart(Food food) {
+		this.items.add(food);
+		this.total += food.getPrice();
 	}
 
-	public void deleteFromCart(String name, Float amount) {
-		if (this.items.remove(name)) {
-			this.total -= amount;
-			System.out.println("Successfully Removed " + name);
+	public void deleteFromCart(Food food) {
+		if (this.items.remove(food)) {
+			this.total -= food.getPrice();
+			//System.out.println("Successfully Removed " + name);
 		}
 		else {
-			System.out.println(name + " does not exist in your cart!");
+			//System.out.println(name + " does not exist in your cart!");
 		}
 	}
 
-	public Float getTotal() {
+	public Double getTotal() {
 		return this.total;
 	}
 
-	public ArrayList<String> getItems() {
+	public ArrayList<Food> getItems() {
 		return this.items;
 	}
 
