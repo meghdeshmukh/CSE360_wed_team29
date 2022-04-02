@@ -1,6 +1,8 @@
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.PreparedStatement;
@@ -17,11 +19,20 @@ import javax.swing.JTextField;
 
 public class login extends JPanel {
 
+		JFrame myFrame;
+		Application myApplication;
+		Cart myCart;
+		login myPanel = this;
+	
 		public JLabel email, password, create, resturantName;
 		private JTextField aemail, apassword;
 		private JButton login, createAcc;
 		
-		public login() {
+		public login(JFrame frame, Application application, Cart cart) {
+			myFrame = frame;
+			myApplication = application;
+			myCart = cart;
+			
 			Font mainFont = new Font("Futura", Font.ITALIC, 25);
 			
 			resturantName = new JLabel("Welcome to ---!");
@@ -39,59 +50,62 @@ public class login extends JPanel {
 			
 			login = new JButton("Login");
 			login.setPreferredSize(new Dimension(180,60));
+			login.addActionListener(new ButtonListener());
 			createAcc = new JButton("Create Account!");
 			createAcc.setPreferredSize(new Dimension(200,60));
-			
-			setLayout(null);
-			Dimension size = email.getPreferredSize();
-			Dimension size1 = password.getPreferredSize();
-			Dimension size2 = aemail.getPreferredSize();
-			Dimension size3 = apassword.getPreferredSize();
-			Dimension size4 = resturantName.getPreferredSize();
-			Dimension size5 = create.getPreferredSize();
-			Dimension size6 = login.getPreferredSize();
-			Dimension size7 = createAcc.getPreferredSize();
-			
-			email.setBounds(115, 220, size.width, size.height);
-			password.setBounds(115, 150, size1.width, size1.height);
-			aemail.setBounds(250, 220, size2.width, size2.height);
-			apassword.setBounds(250, 150, size3.width, size3.height);
-			resturantName.setBounds(330, 70, size4.width, size4.height);
-			create.setBounds(140, 350, size5.width, size5.height);
-			login.setBounds(320, 275, size6.width, size6.height);
-			createAcc.setBounds(310, 400, size7.width, size7.height);
-			
-			login.addActionListener(new Buttonlistener());
-			createAcc.addActionListener(new Buttonlistener());
-			
-			add(resturantName);
-			add(email);
-			add(aemail);
-			add(password);
-			add(apassword);
-			add(login);
-			add(create);
-			add(createAcc);
-			
-			setBackground(new Color(136, 196, 235));
-			setPreferredSize(new Dimension(770, 485));
+			createAcc.addActionListener(new ButtonListener());
 			
 			
+			setLayout(new BorderLayout());
+			
+			JPanel center = new JPanel(new GridLayout(0,1));
+			JPanel row = new JPanel();
+			
+			center.add(new JLabel());
+			
+			row.add(resturantName);
+			center.add(row);
+			
+			row = new JPanel();
+			row.add(email);
+			row.add(aemail);
+			center.add(row);
+			
+			row = new JPanel();
+			row.add(password);
+			row.add(apassword);
+			center.add(row);
+			
+			row = new JPanel();
+			row.add(login);
+			center.add(row);
+			
+			row = new JPanel();
+			row.add(create);
+			center.add(row);
+			
+			row = new JPanel();
+			row.add(createAcc);
+			center.add(row);
+			
+			center.add(new JLabel());
+			
+			add(center, BorderLayout.CENTER);
 		}
 		
-		private class Buttonlistener implements ActionListener{
-
+		private class ButtonListener implements ActionListener{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				
 				if(e.getSource() == createAcc) {
-			
+					signup signupRequest = new signup(myFrame, myApplication, myCart);
+					myFrame.remove(myPanel);
+					myFrame.add(signupRequest);
+					myFrame.invalidate();
+					myFrame.validate();
+				}
+				else if(e.getSource() == login) {
 					
-					JFrame frame = new JFrame("Groccery Store");
-					frame.getContentPane().add(new CreateAcc());
-					frame.pack();
-					frame.setLocationRelativeTo(null);
-					frame.setVisible(true);
 				}
 			}
 			
