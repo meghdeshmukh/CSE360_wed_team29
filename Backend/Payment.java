@@ -8,9 +8,10 @@ Code is currently untested and unfinished due to non-integration
  * change log
  * added accessor functions
  * added mutator functions
+ * removed cardName function. No use. Replaced with cvv
  */
 public class Payment {
-    private String cardName;
+	private String cardName;
     private String cardType;
     private String accountNumber;
     private String cardHolderName;
@@ -34,6 +35,13 @@ public class Payment {
         this.city = city;
         this.state = state;
         this.zip = zip;
+    }
+    
+    public Payment(String accountNumber, String cardHolderName, String expireDate, int cvv) {
+    	this.accountNumber = accountNumber;
+    	this.cardHolderName = cardHolderName;
+    	this.expireDate = expireDate;
+    	this.cvv = cvv;
     }
     
     public String getCardName() {
