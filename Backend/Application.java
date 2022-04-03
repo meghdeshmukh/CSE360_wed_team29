@@ -47,4 +47,12 @@ public class Application {
     public Menu getMenu() {
         return this.menu;
     }
+    
+    public User searchUser(String identifier, String password) {
+    	for(User user: this.users) {
+    		if(user.verifyLogin(identifier, password))
+    			return user;
+    	}
+    	return null;
+    }
 }
