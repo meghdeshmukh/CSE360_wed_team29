@@ -5,11 +5,15 @@ Code is currently untested and unfinished due to non-integration
 */
 public class Order {
     private Customer customer;
+    private Cart cart;
     private Payment payment;
     private Double totalPrice;
+    private int totalTime;
 
     public Order(Customer customer) {
         this.customer = customer;
+        this.cart = customer.getCart();
+        this.totalTime = cart.getTime();
     }
 
     public Payment getPayment() {
@@ -26,5 +30,9 @@ public class Order {
 
     public void setPrice(Double newPrice) {
         this.totalPrice = newPrice;
+    }
+    
+    public int getTime() {
+    	return totalTime;
     }
 }
