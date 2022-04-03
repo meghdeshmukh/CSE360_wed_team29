@@ -11,13 +11,15 @@ public class Food {
     private String[] ingredients;
     private Double price;
     private int calories;
+    private int timeCook;
 
-    public Food(String name, String imgPath, String[] ingredients, Double price, int calories) {
+    public Food(String name, String imgPath, String[] ingredients, Double price, int calories, int timeCook) {
         this.imgPath = imgPath;
         this.name = name;
         this.ingredients =  ingredients;
         this.price = price;
         this.calories = calories;
+        this.timeCook = timeCook;
     }
 
     public String getName() {
@@ -38,5 +40,9 @@ public class Food {
 
     public String getImg() {
         return this.imgPath;
+    }
+    
+    public int getTime() {
+    	return this.timeCook;
     }
 }
