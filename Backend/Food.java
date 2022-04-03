@@ -9,10 +9,10 @@ public class Food {
     private String imgPath;
     private String name;
     private String[] ingredients;
-    private Float price;
+    private Double price;
     private int calories;
 
-    public Food(String name, String imgPath, String[] ingredients, Float price, int calories) {
+    public Food(String name, String imgPath, String[] ingredients, Double price, int calories) {
         this.imgPath = imgPath;
         this.name = name;
         this.ingredients =  ingredients;
@@ -28,7 +28,7 @@ public class Food {
         return this.ingredients;
     }
 
-    public Float getPrice() {
+    public Double getPrice() {
         return this.price;
     }
 

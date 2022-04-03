@@ -17,6 +17,14 @@ public class Customer extends User{
 		this.name = name;
 		this.isGuest = true;
 		this.cart = new Cart();
+		this.payments = new ArrayList<Payment>();
+	}
+
+	public Customer() {
+		super("", "");
+		this.isGuest = true;
+		this.cart = new Cart();
+		this.payments = new ArrayList<Payment>();
 	}
 
 	public void register(String email, String password, String username, String phone, String name) {
