@@ -4,11 +4,20 @@ import java.awt.event.ActionListener;
 import javax.swing.*;
 
 
-
+/*
+ * somewhat finished implementation
+ * implement sign in screen
+ */
 public class signup extends JPanel{
 	//JFrame we are working in
-	JFrame myframe;
-	signup thisPanel;
+	JFrame myFrame;
+	signup myPanel;
+	
+	Application myApplication;
+	
+	Menu myMenu;
+	
+	Cart myCart;
 	
 	//Buttons
 	public JButton submitButton;
@@ -36,13 +45,14 @@ public class signup extends JPanel{
 	 //valid email domains
 	 String[] emailDomains = {"@gmail.com", "@yahoo.com", "@outlook.com", "@asu.edu", "@email.com"};
 	 
-	 public signup(JFrame myFrame){
+	 public signup(JFrame frame, Application application, Cart cart){
 		Font mainFont = new Font("Futura", Font.ITALIC, 25);
 		Font smallFont = new Font("Futura", Font.ITALIC, 13);
-		myframe = myFrame;
-		thisPanel = this;    		
-		//setPreferredSize(new Dimension(770, 485)); 	
-		setPreferredSize(new Dimension(myframe.getWidth(), myframe.getHeight()));
+		myFrame = frame;
+		myApplication = application;
+		myPanel = this;    		
+		myMenu = myApplication.getMenu();
+		myCart = cart;
 		
 		//setup Button
 		Dimension buttonDimension = new Dimension(90, 30);
@@ -87,12 +97,6 @@ public class signup extends JPanel{
 		tos = new JCheckBox("Click to agree to our Terms of Service");
 		tos.setFont(smallFont);
 		
-		//setup layout
-		//in order from topmost to bottom
-		// Panel is 770 W and 485 H
-		// TF are 279 W and 20 H
-		// signup label is 79 W and 33 H
-		// username label is 117 W and 33 H
 		setLayout(new GridLayout(0,1));
 		
 		JPanel row = new JPanel();
@@ -147,20 +151,25 @@ public class signup extends JPanel{
 	private class ButtonListener implements ActionListener{
 		public void actionPerformed(ActionEvent e) {
 			if(e.getSource() == cancelButton) {
-				///return to login screen, demo to new login frame atm
-				//TBD
-				 /*JFrame loginFrame = new JFrame("Login");
-				 loginFrame.getContentPane().add(new signup(loginFrame));
-				 loginFrame.pack();
-				 loginFrame.setLocationRelativeTo(null);
-				 loginFrame.setVisible(true);
-				 myframe.setVisible(false);
-				 myframe.dispose();*/
-				signup newSignupPanel = new signup(myframe);
-				myframe.remove(thisPanel);
-				myframe.add(newSignupPanel);
-				myframe.invalidate();
-				myframe.validate();
+				//TODO connect to signin or back to guestMenu if cart is empty
+				//if myCart is not empty, then that means we've already entered the guestMenu before, and we therefore must return there
+				if(myCart != null) {
+					Customer theCustomer = new Customer();
+					for(Food foodItem : myCart.getItems())
+						theCustomer.addCart(foodItem);
+					customerMenu guestMenu = new customerMenu(myFrame, myApplication, theCustomer);
+					myFrame.remove(myPanel);
+					myFrame.add(guestMenu);
+					myFrame.invalidate();
+					myFrame.validate();
+				}
+				else { //otherwise, we haven't entered the menu at all and must therefore return to the signin page
+					login loginRequest = new login(myFrame, myApplication, myCart);
+					myFrame.remove(myPanel);
+					myFrame.add(loginRequest);
+					myFrame.invalidate();
+					myFrame.validate();
+				}
 			}
 			
 			else if(e.getSource() == submitButton) {
@@ -203,7 +212,11 @@ public class signup extends JPanel{
 				else
 					phoneFormat = false;
 				
-				if (!passwordInput.equals(confirmPasswordInput) || passwordInput.equals("")) {
+				if(passwordInput.length() < 8) {
+					error.setVisible(true);
+					error.setText("Password cannot be <8 characters");
+				}
+				else if (!passwordInput.equals(confirmPasswordInput) || passwordInput.equals("")) {
 					error.setVisible(true);
 					error.setText("Passwords do not match");
 				}
@@ -219,20 +232,60 @@ public class signup extends JPanel{
 					//create a new customer and insert into database
 					//TBD
 					//go to menu
-					menu testMenu = new menu();
-					customer testCustomer = new customer();
-					testCustomer.email = emailInput;
-					testCustomer.username = usernameInput;
-					testCustomer.password = passwordInput;
-					testCustomer.phone = phoneInput;
-					customerMenu testView = new customerMenu(myframe, testCustomer, testMenu);
-					myframe.remove(thisPanel);
-					myframe.add(testView);
-					myframe.invalidate();
-					myframe.validate();
+					
+					//instantiate application, 
+					
+					//
+					//owner
+					//ownerpassword
+					//num of items in menu
+					//{retrieve item info}
+					//num of customer 
+					//{retrive customer info}
+					//num of corder
+					//{retrieving orders}
+					
+					//retrieve menu;
+					
+					
+					if(myMenu == null)
+						myMenu = new Menu();
+					
+					Customer theCustomer = new Customer();
+					theCustomer.register(emailInput, confirmPasswordInput, usernameInput, phoneInput, usernameInput);
+					if(myCart != null)
+						for(Food foodItem : myCart.getItems())
+							theCustomer.addCart(foodItem);
+					customerMenu testView = new customerMenu(myFrame, myApplication, theCustomer);
+					myFrame.remove(myPanel);
+					myFrame.add(testView);
+					myFrame.invalidate();
+					myFrame.validate();
 				}
 				
 			}//submitButton
 		}//actionPerformed
 	}//Button listener
+	
+	//test main, remove as needed
+	public static void main(String[] args) {
+		JFrame testFrame = new JFrame("test frame");
+		testFrame.setSize(new Dimension(1400, 800));
+		Application testApp = new Application();
+		Menu testMenu = new Menu();
+		try {
+			testApp.addMenu(testMenu);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		signup testSignup = new signup(testFrame, testApp, null);
+		
+		
+		testFrame.add(testSignup);
+		testFrame.pack();
+		testFrame.setLocationRelativeTo(null);
+		testFrame.show();	
+
+	}
 } //end of signup panel

@@ -15,8 +15,8 @@ public class customerFoodInfo extends JPanel{
 	
 	
 	JFrame myFrame;
-	customer myCustomer;
-	menu myMenu;
+	Customer myCustomer;
+	Application myApplication;
 	customerFoodInfo myPanel = this;
 	
 	JButton back = new JButton("Back");
@@ -35,18 +35,18 @@ public class customerFoodInfo extends JPanel{
 	
 	Dimension buttonDimension = new Dimension(90,30);
 	
-	public customerFoodInfo(JFrame frame, customer customer, food food, menu menu) {
+	public customerFoodInfo(JFrame frame, Application application, Customer customer, Food food) {
 		
 		myFrame = frame;
 		myCustomer = customer;
-		myMenu = menu;
+		myApplication = application;
 		
 		back.setSize(buttonDimension);
 		back.setFont(smallFont);
 		back.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				customerMenu theMenu = new customerMenu(myFrame, myCustomer, myMenu);
+				customerMenu theMenu = new customerMenu(myFrame, myApplication, myCustomer);
 				myFrame.remove(myPanel);
 				myFrame.add(theMenu);
 				myFrame.invalidate();
@@ -58,15 +58,21 @@ public class customerFoodInfo extends JPanel{
 		add.setFont(smallFont);
 		add.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				// TODO add to cart
+				myCustomer.addCart(food);
+				customerMenu theMenu = new customerMenu(myFrame, myApplication, myCustomer);
+				myFrame.remove(myPanel);
+				myFrame.add(theMenu);
+				myFrame.invalidate();
+				myFrame.validate();
+				
 			}
 		});
 		
-		price.setText(price.getText() + String.format("%.2f", food.price));
+		price.setText(price.getText() + String.format("%.2f", food.getPrice()));
 		price.setFont(mediumFont);
-		calories.setText(calories.getText() + Integer.toString(food.calories));
+		calories.setText(calories.getText() + Integer.toString(food.getCalories()));
 		calories.setFont(mediumFont);
-		name = new JLabel(food.name);
+		name = new JLabel(food.getName());
 		name.setFont(mainFont);
 		
 		setLayout(new GridLayout(0, 1));
@@ -79,18 +85,18 @@ public class customerFoodInfo extends JPanel{
 		informationRow.add(new JLabel());
 		//TODO picture
 		try {
-			foodPic = ImageIO.read(new File("path to picture"));
+			foodPic = ImageIO.read(new File(food.getImg()));
 			JLabel picLabel = new JLabel(new ImageIcon(foodPic));
 			informationRow.add(picLabel);
 		} catch (IOException e1) {
-			informationRow.add(new JLabel("foo"));
+			informationRow.add(new JLabel("File Not Found"));
 		}
 		informationRow.add(new JLabel());
 		JPanel ingredientsColumn = new JPanel(new GridLayout(0,1));
 		ingredientsColumn.add(ingredients);
 		ingredients.setFont(mainFont);
-		for(int i = 0; i < food.ingredients.length; i++) {
-			JLabel ing = new JLabel("Ingredient " + Integer.toString(i+1) + ": " + food.ingredients[i]);
+		for(int i = 0; i < food.getIngredients().length; i++) {
+			JLabel ing = new JLabel("Ingredient " + Integer.toString(i+1) + ": " + food.getIngredients()[i]);
 			ing.setFont(mediumFont);
 			ingredientsColumn.add(ing);
 		}
@@ -112,6 +118,6 @@ public class customerFoodInfo extends JPanel{
 		right.add(add);
 		buttonRow.add(left);
 		buttonRow.add(right);
-		add(buttonRow);	
+		add(buttonRow);
 	}
 }
