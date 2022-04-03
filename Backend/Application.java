@@ -10,10 +10,12 @@ public class Application {
     private Menu menu;
     private Owner owner;
     private List<Order> orders;
+    private int totalOrderTime;
 
     public Application() {
         users = new ArrayList<User>();
         orders = new ArrayList<Order>();
+        totalOrderTime = 0;
     }
 
     public void setOwner(Owner owner) throws Exception {
@@ -54,5 +56,14 @@ public class Application {
     			return user;
     	}
     	return null;
+    }
+    
+    public void addOrder(Order order) {
+    	this.orders.add(order);
+    	totalOrderTime += order.getTime();
+    }
+    
+    public int getTotalOrderTime() {
+    	return totalOrderTime;
     }
 }
