@@ -23,9 +23,11 @@ public class User {
 		return null;
 	}
 
-	public Boolean verifyLogin(String email, String password) {
-		// check database to verify that email and password exit and match
-		return true;
+	public Boolean verifyLogin(String identifier, String password) {
+		if(password.equals(this.password) && (identifier.equals(this.email)))
+			return true;
+		else
+			return false;
 	}
 
 	public void changeEmail(String email) {
