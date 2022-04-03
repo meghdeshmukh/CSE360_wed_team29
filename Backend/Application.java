@@ -49,7 +49,7 @@ public class Application {
     public Menu getMenu() {
         return this.menu;
     }
-    
+
     public User searchUser(String identifier, String password) {
     	for(User user: this.users) {
     		if(user.verifyLogin(identifier, password))
@@ -57,13 +57,17 @@ public class Application {
     	}
     	return null;
     }
-    
+
     public void addOrder(Order order) {
     	this.orders.add(order);
     	totalOrderTime += order.getTime();
     }
-    
+
     public int getTotalOrderTime() {
     	return totalOrderTime;
+    }
+
+    public int numberOfOrders() {
+        return this.orders.size();
     }
 }

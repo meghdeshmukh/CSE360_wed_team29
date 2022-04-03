@@ -31,7 +31,7 @@ public class Order {
     public void setPrice(Double newPrice) {
         this.totalPrice = newPrice;
     }
-    
+
     public int getTime() {
     	return totalTime;
     }
