@@ -3,7 +3,8 @@ Author: Megh Deshmukh in conjunction with CSE 360 Wednesday Team 29
 
 Code is currently untested and unfinished due to non-integration
 */
-public class Order {
+import java.io.Serializable;
+public class Order implements Serializable{
     private Customer customer;
     private Cart cart;
     private Payment payment;
