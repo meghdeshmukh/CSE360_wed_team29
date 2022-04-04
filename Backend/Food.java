@@ -5,7 +5,8 @@ Code is currently untested and unfinished due to non-integration
 test
 */
 import java.util.*;
-public class Food {
+import java.io.Serializable;
+public class Food implements Serializable{
     private String imgPath;
     private String name;
     private String[] ingredients;
