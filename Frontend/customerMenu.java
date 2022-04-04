@@ -15,6 +15,7 @@ import javax.swing.event.DocumentListener;
  * Implement cart screen
  */
 
+@SuppressWarnings("serial")
 public class customerMenu extends JPanel{
 	JFrame myFrame;
 	Application myApplication;
@@ -122,7 +123,8 @@ public class customerMenu extends JPanel{
 		right.add(cart);
 		topRow.add(right, BorderLayout.EAST);
 		topRow.add(search, BorderLayout.SOUTH);
-		JLabel welcome = new JLabel("Welcome to Restaurant!");
+		//TODO return to "Welcome to Restaurant"
+		JLabel welcome = new JLabel(Integer.toString(myApplication.getTotalOrderTime()) + " " + Integer.toString(myCustomer.getVisits()));
 		welcome.setFont(mainFont);
 		JPanel indent = new JPanel();
 		indent.add(welcome);
@@ -227,8 +229,8 @@ public class customerMenu extends JPanel{
 		Customer testCustomer = new Customer("g@gmail.com", "passwordTest", "GMoney", "3334445555", "Guillermo");
 		
 		testCustomer.register("g@gmail.com", "passwordTest", "GMoney", "3334445555", "Guillermo");
-		testCustomer.addPayment(new Payment("VISA-0123", "", "", "", "", 0, "", "", "", "", 0));
-		testCustomer.addPayment(new Payment("DISC-0123", "", "", "", "", 0, "", "", "", "", 0));
+		testCustomer.addPayment(new Payment("VISA", "0123456789012345", "GMONEY", "03/24", 0, "", "", "", "", 0));
+		testCustomer.addPayment(new Payment("DISC", "9876543210987654", "DAVE", "03/25", 0, "", "", "", "", 0));
 		Application testApp = new Application();
 		Menu testMenu = new Menu();
 		for(int i = 0; i < 120; i++) {
