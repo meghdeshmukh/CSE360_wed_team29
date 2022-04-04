@@ -41,7 +41,7 @@ public class Food {
     public String getImg() {
         return this.imgPath;
     }
-    
+
     public int getTime() {
     	return this.timeCook;
     }

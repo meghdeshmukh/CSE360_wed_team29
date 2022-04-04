@@ -24,8 +24,6 @@ public class Owner extends User {
 	public void setMenu(Menu menu) throws Exception {
 		if (this.menu == null) {
 			this.menu = menu;
-		} else {
-			throw Exception("Menu already exists");
 		}
 	}
 
