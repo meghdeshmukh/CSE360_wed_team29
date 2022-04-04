@@ -4,13 +4,8 @@ Author: Megh Deshmukh in conjunction with CSE 360 Wednesday Team 29
 Code is currently untested and unfinished due to non-integration
 */
 
-/*
- * change log
- * added accessor functions
- * added mutator functions
- * removed cardName function. No use. Replaced with cvv
- */
-public class Payment {
+import java.io.Serializable;
+public class Payment implements Serializable{
 	private String cardName;
     private String cardType;
     private String accountNumber;
