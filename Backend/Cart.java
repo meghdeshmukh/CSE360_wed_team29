@@ -1,5 +1,6 @@
 import java.util.*;
-public class Cart {
+import java.io.Serializable;
+public class Cart implements Serializable{
 
 	private Double total;
 	private List<Food> items;
