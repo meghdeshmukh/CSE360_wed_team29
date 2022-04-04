@@ -23,8 +23,7 @@ public class Payment {
     private String state;
     private int zip;
 
-    public Payment(String cardType, String accountNumber, String cardHolderName, String expireDate, int cvv, String address1, String address2, String city, String state, int zip) {
-        this.cardName = cardType + accountNumber.substring(12,16);
+    public Payment(String cardType, String accountNumber, String cardHolderName, String expireDate, int cvv, String address1, String address2, String city, String state, int zip) {     
     	this.cardType = cardType;
         this.accountNumber = accountNumber;
         this.cardHolderName = cardHolderName;
@@ -35,6 +34,7 @@ public class Payment {
         this.city = city;
         this.state = state;
         this.zip = (Integer)zip;
+        updateName();
     }
 
     public Payment(String accountNumber, String cardHolderName, String expireDate, int cvv) {
@@ -45,7 +45,7 @@ public class Payment {
     }
 
     public boolean isValid() {
-        if ((this.accountNumber == null) || (this.accountNumber.length() == 0)) {
+        if ((this.accountNumber == null) || (this.accountNumber.length() != 16)) {
             return false;
         }
         if ((this.cardHolderName == null) || (this.accountNumber.length() == 0)) {
@@ -64,16 +64,13 @@ public class Payment {
     	return this.cardName;
     }
 
-    public void setCardName(String cardName) {
-    	this.cardName = cardName;
-    }
-
     public String getCardType() {
     	return cardType;
     }
 
     public void setCardType(String cardtype) {
     	this.cardType = cardtype;
+    	updateName();
     }
 
     public String getAccountNumber() {
@@ -82,6 +79,7 @@ public class Payment {
 
     public void setAccountNumber(String accNum) {
     	this.accountNumber = accNum;
+    	updateName();
     }
 
     public String getCardHolderName() {
@@ -90,6 +88,7 @@ public class Payment {
 
     public void setCardHolderName(String cardHolderName) {
     	this.cardHolderName = cardHolderName;
+    	updateName();
     }
 
     public String getExpireDate() {
@@ -98,6 +97,7 @@ public class Payment {
 
     public void setExpireDate(String expireDate) {
     	this.expireDate = expireDate;
+    	updateName();
     }
 
     public int getCVV() {
@@ -106,6 +106,7 @@ public class Payment {
 
     public void setCVV(int cvv) {
     	this.cvv = cvv;
+    	updateName();
     }
 
     public String getAddressOne() {
@@ -146,5 +147,12 @@ public class Payment {
 
     public void setZIP(int zip) {
     	this.zip = zip;
+    }
+    
+    private void updateName() {
+    	if(isValid())
+    		this.cardName = cardType + accountNumber.substring(12,16);
+    	else
+    		this.cardName = "INVALID";
     }
 }
