@@ -4,8 +4,16 @@ Author: Megh Deshmukh in conjunction with CSE 360 Wednesday Team 29
 Code is currently untested and unfinished due to non-integration
 */
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.util.*;
-public class Application {
+public class Application implements Serializable{
     private List<User> users;
     private Menu menu;
     private Owner owner;
@@ -24,6 +32,10 @@ public class Application {
         } else {
             throw new Exception("Owner already exists");
         }
+    }
+    
+    private int getOrderCount() {
+    	return orders.size();
     }
 
     public Owner getOwner() {
@@ -69,5 +81,49 @@ public class Application {
 
     public int numberOfOrders() {
         return this.orders.size();
+    }
+    
+    public List<Order> getOrders(){
+    	return this.orders;
+    }
+    
+    public void saveApplication() {
+    	try {
+			FileOutputStream f = new FileOutputStream(new File("database.txt"));
+			ObjectOutputStream o = new ObjectOutputStream(f);
+			
+			o.writeObject(this);
+			
+			o.close();
+			f.close();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+    }
+    
+    public void restoreApplication() {
+		FileInputStream fi;
+		try {
+			fi = new FileInputStream(new File("database.txt"));
+			ObjectInputStream oi = new ObjectInputStream(fi);
+		
+			Application retrievedApp = (Application) oi.readObject();
+			
+			this.users = retrievedApp.getUsers();
+			this.menu = retrievedApp.getMenu();
+			this.owner = retrievedApp.getOwner();
+			this.orders = retrievedApp.getOrders();
+			this.totalOrderTime = retrievedApp.getTotalOrderTime();
+            
+            oi.close();
+            fi.close();
+		} catch (IOException | ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+    }
+    
+    public static void main(String[] args) {
     }
 }
