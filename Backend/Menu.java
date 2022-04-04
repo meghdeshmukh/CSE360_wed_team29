@@ -4,7 +4,8 @@ Author: Megh Deshmukh in conjunction with CSE 360 Wednesday Team 29
 Code is currently untested and unfinished due to non-integration
 */
 import java.util.*;
-public class Menu {
+import java.io.Serializable;
+public class Menu implements Serializable{
     private int numItems;
     private List<Food> foodItems;
 
