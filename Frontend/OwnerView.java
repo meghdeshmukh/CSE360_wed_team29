@@ -17,18 +17,21 @@ import javax.swing.JButton;
 
 
 public class OwnerView extends JPanel {
-	private JTextField item, price, allergens;
-	private JLabel MenuItem, Price, Allergens;
-	private JButton add, delete;
-
-	public OwnerView(){
+	
+	
+	public static void main(String[] args){
+		JTextField item, price, allergens;
+		JLabel MenuItem;
+		JLabel Price, Allergens;
+		JButton add, delete;
+		
 		
 		JTable view = new JTable();
 		Object[] columns = {"Items", "Prices", "Allergies"};
 		DefaultTableModel model = new DefaultTableModel();
 		
 		JFrame frame = new JFrame("OWNER VIEW");
-		frame.getContentPane().setBackground(new Color(0,0,0));
+		frame.getContentPane().setBackground(Color.LIGHT_GRAY);
 		frame.getContentPane().setForeground(Color.white);
 		frame.setBounds(100,100,518,369);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -40,15 +43,16 @@ public class OwnerView extends JPanel {
 		view.setModel(model);
 		
 		view.setBackground(Color.white);
-		view.setForeground(new Color(136, 196, 235));
+		view.setForeground(Color.black);
 		view.setSelectionBackground(Color.white);
-		view.setGridColor(Color.orange);
-		view.setFont(new Font("Futura", Font.ITALIC, 25));
+		view.setGridColor(Color.red);
+		view.setSelectionForeground(Color.white);
+		view.setFont(new Font("Futura", Font.ITALIC, 17));
 		view.setRowHeight(30);
 		view.setAutoCreateRowSorter(true);
 		
 		JScrollPane pane = new JScrollPane(view);
-		pane.setForeground(Color.orange);
+		pane.setForeground(Color.red);
 		pane.setBackground(Color.white);
 		pane.setBounds(10,10,495,186);
 		frame.getContentPane().add(pane);
@@ -69,29 +73,29 @@ public class OwnerView extends JPanel {
 		allergens.setColumns(10);
 		
 		MenuItem = new JLabel("Menu item");
-		MenuItem.setForeground(Color.ORANGE);
+		MenuItem.setForeground(Color.WHITE);
 		MenuItem.setBounds(33, 207, 95, 16);
 		frame.getContentPane().add(MenuItem);
 		
 		Price = new JLabel("Price");
-		Price.setForeground(Color.ORANGE);
+		Price.setForeground(Color.WHITE);
 		Price.setBounds(230, 208, 95, 16);
 		frame.getContentPane().add(Price);
 		
 		Allergens = new JLabel("Allergens");
-		Allergens.setForeground(Color.ORANGE);
+		Allergens.setForeground(Color.WHITE);
 		Allergens.setBounds(401, 208, 95, 16);
 		frame.getContentPane().add(Allergens);
 		
 		Object[] rows = new Object[3];
 		
 		add = new JButton("ADD  item");
-		add.setBackground(Color.ORANGE);
-		add.setForeground(Color.ORANGE);
+		add.setBackground(Color.YELLOW);
+		add.setForeground(Color.WHITE);
 		add.setBounds(6, 260, 256, 75);
 		frame.getContentPane().add(add);
 		
-		//functio for adding items to list
+		//function for adding items to list
 		add.addActionListener(new ActionListener() {
 
 			@Override
@@ -100,12 +104,15 @@ public class OwnerView extends JPanel {
 				rows[1] = price.getText();
 				rows[2] = allergens.getText();
 				
+				model.addRow(rows);
+				
 			}
 			
 		});
 		
 		delete = new JButton("DELETE item");
-		delete.setForeground(Color.ORANGE);
+		delete.setBackground(Color.LIGHT_GRAY);
+		delete.setForeground(Color.WHITE);
 		delete.setBounds(263, 260, 249, 75);
 		frame.getContentPane().add(delete);
 		//function for deleting items out of list
