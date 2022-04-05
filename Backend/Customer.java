@@ -1,3 +1,4 @@
+package Backend;
 import java.util.*;
 
 public class Customer extends User{
@@ -7,8 +8,9 @@ public class Customer extends User{
 	private String name;
 	private Boolean isGuest;
 	private Cart cart;
-	private List<Coupon> coupons;
+	public List<Double> coupons;
 	private List<Payment> payments;
+	private int totalVisits;
 
 	public Customer (String email, String password, String username, String phone, String name) {
 		super(email, password);
@@ -17,6 +19,15 @@ public class Customer extends User{
 		this.name = name;
 		this.isGuest = true;
 		this.cart = new Cart();
+		this.payments = new ArrayList<Payment>();
+		totalVisits = 0;
+	}
+
+	public Customer() {
+		super("", "");
+		this.isGuest = true;
+		this.cart = new Cart();
+		totalVisits = 0;
 	}
 
 	public void register(String email, String password, String username, String phone, String name) {
@@ -26,6 +37,9 @@ public class Customer extends User{
 		this.changePhone(phone);
 		this.changeName(name);
 		this.isGuest = false;
+		this.payments = new ArrayList<Payment>();
+		totalVisits = 0;
+		this.coupons = new ArrayList<Double>();
 	}
 
 	public void changeUsername(String username) {
@@ -56,11 +70,11 @@ public class Customer extends User{
 		return this.isGuest;
 	}
 
-	public void addCoupon(Coupon coupon) {
+	public void addCoupon(Double coupon) {
 		this.coupons.add(coupon);
 	}
 
-	public List<Coupon> getCoupons() {
+	public List<Double> getCoupons() {
 		return this.coupons;
 	}
 
@@ -87,36 +101,37 @@ public class Customer extends User{
 	public List<Payment> getPayments() {
 		return this.payments;
 	}
+	
+	
+	public int getVisits() {
+		return totalVisits;
+	}
 
-	/*
-	 * public void viewMenu() {
-	 *  view menu GUI
-	 *  }
-	 */
-
-	/* public void viewCart() {
-	 *  view Cart GUI
-	 *  }
-	 */
-
-	/*
-	 *  public void viewItem(Food) {
-	 *   view Food GUI
-	 *   }
-	 */
-
-	public Order customerCheckout(Payment payment) {
+	public Order customerCheckout(Payment payment, List<Double> couponsUsed) {
 		Order order = new Order(this);
 		order.setPayment(payment);
 		order.setPrice(this.cart.getTotal());
+		this.cart = new Cart();
+		totalVisits++;
+		for(Double coupon : couponsUsed) {
+			if(this.coupons.contains(coupon))
+				this.coupons.remove(coupon);
+		}
 		return order;
 	}
 
-	public Order guestCheckout(String cardName, String cardType, String accountNumber, String cardHolderName, String expireDate, String address1, String address2, String city, String state, int zip) {
+	public Order altCheckout(String accountNumber, String cardHolderName, String expireDate, int cvv, List<Double> couponsUsed) {
 		Order order = new Order(this);
-		Payment payment = new Payment(cardName, cardType, accountNumber, cardHolderName, expireDate, address1, address2, city, state, zip);
+		Payment payment = new Payment(accountNumber, cardHolderName, expireDate, cvv);
 		order.setPayment(payment);
 		order.setPrice(this.cart.getTotal());
+		this.cart = new Cart();
+		totalVisits++;
+		if(!this.getIsGuest())
+			for(Double coupon : couponsUsed) {
+				if(this.coupons.contains(coupon))
+					this.coupons.remove(coupon);
+			}
 		return order;
 	}
 

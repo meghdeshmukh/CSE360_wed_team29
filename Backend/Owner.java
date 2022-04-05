@@ -1,3 +1,4 @@
+package Backend;
 
 public class Owner extends User {
 
@@ -21,7 +22,7 @@ public class Owner extends User {
 		if (this.menu == null) {
 			this.menu = menu;
 		} else {
-			throw Exception("Menu already exists");
+			//throw Exception("Menu already exists");
 		}
 	}
 
@@ -29,27 +30,13 @@ public class Owner extends User {
 		this.menu.add(food);
 	}
 
-	/*
-	 * public void editFood(Food)
-	 */
-
 	public void deleteFood(Food food) {
-		for (int i = 0; i < this.menu.getCount(); i++) {
-			if (food.getClass().equals(this.menu.getItems().get(i))) {
-				this.menu.remove(food);
-			}
-		}
+		for(Food menuFood: menu.getItems())
+			if(food.equals(menuFood))
+				this.menu.remove(menuFood);
 	}
 
-	 public void giveCoupon(Customer customer, Float amount) {
-		 Coupon newCoupon = new Coupon(customer, amount);
+	 public void giveCoupon(Customer customer, Double amount) {
+		 customer.addCoupon(amount);
 	 }
-
-	/*
-	 * public void exitCustomerView()
-	 */
-
-	/*
-	 * public void viewFood(Food)
-	 */
 }

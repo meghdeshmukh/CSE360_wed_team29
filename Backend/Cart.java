@@ -1,26 +1,31 @@
 import java.util.*;
-public class Cart {
+import java.io.Serializable;
+public class Cart implements Serializable{
 
-	private Float total;
+	private Double total;
 	private List<Food> items;
+	private int totalTime;
 
 	public Cart() {
-		this.total = 0.0f;
+		this.total = 0.0;
+		items = new ArrayList<Food>();
+		this.totalTime = 0;
 	}
 
 	public void addToCart(Food food) {
 		this.items.add(food);
 		this.total += food.getPrice();
+		this.totalTime += food.getTime();
 	}
 
 	public void deleteFromCart(Food food) {
 		if (this.items.remove(food)) {
 			this.total -= food.getPrice();
-			
+			this.totalTime -= food.getTime();
 		}
 	}
 
-	public Float getTotal() {
+	public Double getTotal() {
 		return this.total;
 	}
 
@@ -28,4 +33,7 @@ public class Cart {
 		return this.items;
 	}
 
+	public int getTime() {
+		return this.totalTime;
+	}
 }
