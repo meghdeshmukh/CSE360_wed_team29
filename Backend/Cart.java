@@ -1,31 +1,28 @@
-import java.util.ArrayList;
-
-/*
- * Change Log
- * Float to Double
- */
-
-public class Cart {
+package Backend;
+import java.io.Serializable;
+import java.util.*;
+public class Cart implements Serializable{
 
 	private Double total;
-	private ArrayList<Food> items = new ArrayList<Food>();
+	private List<Food> items;
+	private int totalTime;
 
 	public Cart() {
-		this.total = 0d;
+		this.total = 0.0;
+		items = new ArrayList<Food>();
+		this.totalTime = 0;
 	}
 
 	public void addToCart(Food food) {
 		this.items.add(food);
 		this.total += food.getPrice();
+		this.totalTime += food.getTime();
 	}
 
 	public void deleteFromCart(Food food) {
 		if (this.items.remove(food)) {
 			this.total -= food.getPrice();
-			//System.out.println("Successfully Removed " + name);
-		}
-		else {
-			//System.out.println(name + " does not exist in your cart!");
+			this.totalTime -= food.getTime();
 		}
 	}
 
@@ -33,8 +30,11 @@ public class Cart {
 		return this.total;
 	}
 
-	public ArrayList<Food> getItems() {
+	public List<Food> getItems() {
 		return this.items;
 	}
 
+	public int getTime() {
+		return this.totalTime;
+	}
 }
