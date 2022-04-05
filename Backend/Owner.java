@@ -1,3 +1,4 @@
+package Backend;
 
 public class Owner extends User {
 
@@ -6,10 +7,6 @@ public class Owner extends User {
 	public Owner(String email, String password)
 	{
 		super(email, password);
-	}
-
-	public Owner() {
-		super("", "");
 	}
 	/*
 	 * public void viewCustomerView() {
@@ -24,16 +21,14 @@ public class Owner extends User {
 	public void setMenu(Menu menu) throws Exception {
 		if (this.menu == null) {
 			this.menu = menu;
+		} else {
+			//throw Exception("Menu already exists");
 		}
 	}
 
 	public void addFood(Food food) {
 		this.menu.add(food);
 	}
-
-	/*
-	 * public void editFood(Food)
-	 */
 
 	public void deleteFood(Food food) {
 		for(Food menuFood: menu.getItems())
@@ -42,14 +37,6 @@ public class Owner extends User {
 	}
 
 	 public void giveCoupon(Customer customer, Double amount) {
-		 Coupon newCoupon = new Coupon(customer, amount);
+		 customer.addCoupon(amount);
 	 }
-
-	/*
-	 * public void exitCustomerView()
-	 */
-
-	/*
-	 * public void viewFood(Food)
-	 */
 }
