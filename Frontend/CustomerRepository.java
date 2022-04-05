@@ -107,6 +107,7 @@ public class CustomerRepository extends JPanel{
 	                public void actionPerformed(ActionEvent e) {
 	                    Double new_amount = Double.parseDouble(amount.getText());
 	                    customer.addCoupon(new_amount);
+	                    amount.setText("");
 	                    System.out.println(customer.getCoupons());
 	                }
 	            });
@@ -128,37 +129,4 @@ public class CustomerRepository extends JPanel{
             pane.add(row, BorderLayout.CENTER);
         }
     }
-
-
-    public static void main(String[] args) {
-
-        Customer customer1 = new Customer ("nfl@gmail.com", "1234", "d1", "1234567890", "Bobby Bobby");
-        Customer customer2 = new Customer ("nba@gmail.com", "1234", "d1", "1234567890", "Bobby Bobby");
-        Customer customer3 = new Customer ("mlb@gmail.com", "1234", "d1", "1234567890", "Bobby Bobby");
-        Customer customer4 = new Customer ("nhl@gmail.com", "1234", "d1", "1234567890", "Bobby Bobby");
-        Customer customer5 = new Customer ("wnba@gmail.com", "1234", "d1", "1234567890", "Bobby Bobby");
-        Customer customer6 = new Customer ("pl@gmail.com", "1234", "d1", "1234567890", "Bobby Bobby");
-        Customer customer7 = new Customer ("mls@gmail.com", "1234", "d1", "1234567890", "Bobby Bobby");
-
-
-		JFrame testFrame = new JFrame("test frame profile");
-		testFrame.setSize(new Dimension(1400, 800));
-
-		Application testApp = new Application();
-        testApp.addUser(customer1);
-        testApp.addUser(customer2);
-        testApp.addUser(customer3);
-        testApp.addUser(customer4);
-        testApp.addUser(customer5);
-        testApp.addUser(customer6);
-        testApp.addUser(customer7);
-		
-		CustomerRepository test = new CustomerRepository(testFrame, testApp);
-		
-		testFrame.add(test);
-		testFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		testFrame.setLocationRelativeTo(null);
-		testFrame.setVisible(true);
-	}
-
 }
