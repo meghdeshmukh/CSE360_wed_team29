@@ -1,3 +1,5 @@
+package Frontend;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -9,7 +11,10 @@ import javax.swing.border.LineBorder;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
-import javafx.scene.control.TextField;
+import Backend.Application;
+import Backend.Customer;
+import Backend.User;
+
 
 import java.util.List;
 
@@ -34,13 +39,18 @@ public class CustomerRepository extends JPanel{
     public CustomerRepository(JFrame frame, Application application) {
 
         myApplication = application;
+        myFrame = frame;
 
         back.setSize(buttonDimension);
 		back.setFont(smallFont);
         back.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // go to owner view
+            	OwnerView returnRequest = new OwnerView(myFrame, myApplication, myApplication.getOwner());
+            	myFrame.remove(myPanel);
+            	myFrame.add(returnRequest);
+            	myFrame.invalidate();
+            	myFrame.validate();
             }
         });
 
@@ -74,40 +84,47 @@ public class CustomerRepository extends JPanel{
         Border border = new LineBorder(Color.BLACK, 4, true);
         List<User> customers = myApplication.getUsers();
         for (User user : customers) {
-            Customer customer = (Customer) user;
+        	if(user instanceof Customer) {
+	            Customer customer = (Customer) user;
+	            JPanel row = new JPanel(new BorderLayout());
+	            row.setBorder(border);
+	
+	            JPanel left = new JPanel(new GridLayout(0, 1));
+	            JLabel name = new JLabel(customer.getName());
+	            name.setFont(smallFont);
+	            JLabel phone = new JLabel(customer.getPhone());
+	            phone.setFont(smallFont);
+	
+	            left.add(name);
+	            left.add(phone);
+	
+	            JPanel right = new JPanel(new GridLayout(1,0));
+	            JTextField amount = new JTextField(10);
+	            amount.setFont(mediumFont);
+	            JButton gift = new JButton("Gift Coupon");
+	            gift.addActionListener(new ActionListener() {
+	                @Override
+	                public void actionPerformed(ActionEvent e) {
+	                    Double new_amount = Double.parseDouble(amount.getText());
+	                    customer.addCoupon(new_amount);
+	                    System.out.println(customer.getCoupons());
+	                }
+	            });
+	
+	        
+	
+	            right.add(amount);
+	            right.add(gift);
+	            row.add(left, BorderLayout.WEST);
+	            row.add(right, BorderLayout.EAST);
+	            System.out.println(row.getSize());
+	            row.setSize(50, 50);
+	            pane.add(row, BorderLayout.CENTER);
+	        }	
+        }
+        while(pane.getComponentCount() < 10) {
             JPanel row = new JPanel(new BorderLayout());
             row.setBorder(border);
-
-            JPanel left = new JPanel(new GridLayout(0, 1));
-            JLabel name = new JLabel(customer.getName());
-            name.setFont(smallFont);
-            JLabel phone = new JLabel(customer.getPhone());
-            phone.setFont(smallFont);
-
-            left.add(name);
-            left.add(phone);
-
-            JPanel right = new JPanel(new GridLayout(1,0));
-            JTextField amount = new JTextField(10);
-            amount.setFont(mediumFont);
-            JButton gift = new JButton("Gift Coupon");
-            gift.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    Double new_amount = Double.parseDouble(amount.getText());
-                    customer.addCoupon(new_amount);
-                    System.out.println(customer.getCoupons());
-                }
-            });
-
-        
-
-            right.add(amount);
-            right.add(gift);
-            row.add(left, BorderLayout.WEST);
-            row.add(right, BorderLayout.EAST);
-            System.out.println(row.getSize());
-            row.setSize(50, 50);
             pane.add(row, BorderLayout.CENTER);
         }
     }
