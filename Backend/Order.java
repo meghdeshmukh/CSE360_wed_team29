@@ -1,9 +1,11 @@
+package Backend;
+import java.io.Serializable;
+
 /*
 Author: Megh Deshmukh in conjunction with CSE 360 Wednesday Team 29
 
 Code is currently untested and unfinished due to non-integration
 */
-import java.io.Serializable;
 public class Order implements Serializable{
     private Customer customer;
     private Cart cart;
@@ -15,6 +17,10 @@ public class Order implements Serializable{
         this.customer = customer;
         this.cart = customer.getCart();
         this.totalTime = cart.getTime();
+    }
+    
+    public Customer returnCustomer() {
+    	return customer;
     }
 
     public Payment getPayment() {
