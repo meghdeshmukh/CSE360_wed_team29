@@ -1,3 +1,4 @@
+package Frontend;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -7,10 +8,13 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
+
+import Backend.Application;
+import Backend.Customer;
+import Backend.Food;
 
 
+@SuppressWarnings("serial")
 public class customerFoodInfo extends JPanel{
 	
 	
@@ -83,14 +87,14 @@ public class customerFoodInfo extends JPanel{
 		
 		JPanel informationRow = new JPanel(new GridLayout(0,5));
 		informationRow.add(new JLabel());
-		//TODO picture
-		try {
-			foodPic = ImageIO.read(new File(food.getImg()));
-			JLabel picLabel = new JLabel(new ImageIcon(foodPic));
-			informationRow.add(picLabel);
-		} catch (IOException e1) {
-			informationRow.add(new JLabel("File Not Found"));
-		}
+		
+		//JLabel picLabel = new JLabel(new ImageIcon(food.getImg()));
+		JLabel picLabel = new JLabel();
+		informationRow.add(picLabel);
+		Image dimg = food.getImg().getScaledInstance(myFrame.getWidth()/5, myFrame.getHeight()/4, Image.SCALE_SMOOTH);
+		ImageIcon imageIcon = new ImageIcon(dimg);
+		picLabel.setIcon(imageIcon);
+		
 		informationRow.add(new JLabel());
 		JPanel ingredientsColumn = new JPanel(new GridLayout(0,1));
 		ingredientsColumn.add(ingredients);

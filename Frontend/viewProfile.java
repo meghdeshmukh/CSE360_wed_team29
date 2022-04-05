@@ -1,20 +1,29 @@
+package Frontend;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.*;
 
+import Backend.Application;
+import Backend.Customer;
+
+/*
+ * functions implemented
+ */
+
+@SuppressWarnings("serial")
 public class viewProfile extends JPanel{
 	
 	//the frame we work in
 	JFrame theFrame;
 	
-	menu myMenu;
+	Application myApplication;
 	
 	//the panel
 	JPanel thePanel = this;
 	
 	//the customer
-	customer theCustomer;
+	Customer theCustomer;
 	
 	//JButton
 	JButton backButton;
@@ -36,15 +45,14 @@ public class viewProfile extends JPanel{
 	JTextField phoneTF;
 	
 	
-	public viewProfile(JFrame frame, customer customer, menu menu) {
+	public viewProfile(JFrame frame, Application application, Customer customer) {
 		theFrame = frame;
 		theCustomer = customer;
-		myMenu = menu;
+		myApplication = application;
+
 		
 		Font mainFont = new Font("Futura", Font.ITALIC, 25);
-		Font smallFont = new Font("Futura", Font.ITALIC, 13);
-		
-		setBackground(new Color(139,196,235));  
+		Font smallFont = new Font("Futura", Font.PLAIN, 18); 
 		
 		//Button Dimensions
 		Dimension buttonDimension = new Dimension(90,30);
@@ -62,27 +70,30 @@ public class viewProfile extends JPanel{
 		profileLabel = new JLabel("Profile");
 		profileLabel.setFont(mainFont);
 		usernameLabel = new JLabel("Username");
+		usernameLabel.setFont(smallFont);
 		fullnameLabel = new JLabel("Full Name");
 		emailLabel = new JLabel("Email");
 		passwordLabel = new JLabel("Password");
 		phoneLabel = new JLabel("Phone");
 		paymentLabel = new JLabel("Payment Methods");
 		
+		paymentLabel.setFont(smallFont);
+		
 		//Textfields
 		usernameTF = new JTextField(25);
-		usernameTF.setText(theCustomer.username);
+		usernameTF.setText(theCustomer.getUsername());
 		usernameTF.setEditable(false);
 		fullnameTF = new JTextField(25);
-		fullnameTF.setText(theCustomer.fullname);
+		fullnameTF.setText(theCustomer.getName());
 		fullnameTF.setEditable(false);
 		emailTF = new JTextField(25);
-		emailTF.setText(theCustomer.email);
+		emailTF.setText(theCustomer.getEmail());
 		emailTF.setEditable(false);
 		passwordTF = new JTextField(25);
-		passwordTF.setText(theCustomer.password);
+		passwordTF.setText(theCustomer.getPassword());
 		passwordTF.setEditable(false);
 		phoneTF = new JTextField(25);
-		phoneTF.setText(theCustomer.phone);
+		phoneTF.setText(theCustomer.getPhone());
 		phoneTF.setEditable(false);
 		
 		setLayout(new GridLayout(0,1));
@@ -124,20 +135,15 @@ public class viewProfile extends JPanel{
 		phoneRow.add(phoneTF);
 		add(phoneRow);
 		
-		if(theCustomer.payments.length > 0) {
-			add(paymentLabel);
-			for(int i = 0; i < theCustomer.payments.length; i++) {
+		if(theCustomer.getPayments().size() > 0) {
+			JPanel indent = new JPanel();
+			indent.add(paymentLabel);
+			add(indent);
+			for(int i = 0; i < theCustomer.getPayments().size(); i++) {
 				JPanel row = new JPanel();
 				row.add(new JLabel("Method #" + Integer.toString(i+1)));
 				JTextField paymentMethod = new JTextField(12);
-				String type = theCustomer.payments[i].cardType;
-				String acnt = theCustomer.payments[i].accountNumber;
-				String lastFour;
-				if(acnt.length()>3)
-					lastFour = acnt.substring(acnt.length()-4);
-				else
-					lastFour = "INVALID";
-				paymentMethod.setText(type + "-" + lastFour);
+				paymentMethod.setText(theCustomer.getPayments().get(i).getCardName());
 				paymentMethod.setEditable(false);
 				row.add(paymentMethod);
 				add(row);
@@ -148,14 +154,14 @@ public class viewProfile extends JPanel{
 	public class ButtonListener implements ActionListener{
 		public void actionPerformed(ActionEvent e) {
 			if(e.getSource() == backButton) {
-				customerMenu theMenu = new customerMenu(theFrame, theCustomer, myMenu);
+				customerMenu theMenu = new customerMenu(theFrame, myApplication, theCustomer);
 				theFrame.remove(thePanel);
 				theFrame.add(theMenu);
 				theFrame.invalidate();
 				theFrame.validate();
 			}
 			else if(e.getSource() == editButton) {
-				editProfile newEditProfilePanel = new editProfile(theFrame, theCustomer, myMenu);
+				editProfile newEditProfilePanel = new editProfile(theFrame, myApplication, theCustomer);
 				theFrame.remove(thePanel);
 				theFrame.add(newEditProfilePanel);
 				theFrame.invalidate();

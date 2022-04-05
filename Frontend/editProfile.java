@@ -1,3 +1,4 @@
+package Frontend;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -8,9 +9,14 @@ import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
+import Backend.Application;
+import Backend.Customer;
+import Backend.Payment;
+
 
 //Implemented
 
+@SuppressWarnings("serial")
 public class editProfile extends JScrollPane{
 	
 	//JFrame we are working in
@@ -67,7 +73,7 @@ public class editProfile extends JScrollPane{
 		//Payment setup
 		for(int i = 0; i < myCustomer.getPayments().size(); i++) {
 			Payment srcPay = myCustomer.getPayments().get(i);
-			Payment payment = new Payment(srcPay.getCardName(),srcPay.getCardType(), srcPay.getAccountNumber(), srcPay.getCardHolderName(), srcPay.getExpireDate(),srcPay.getCVV(), srcPay.getAddressOne(), srcPay.getAddressTwo(), srcPay.getCity(), srcPay.getState(), srcPay.getZIP());
+			Payment payment = new Payment(srcPay.getCardType(), srcPay.getAccountNumber(), srcPay.getCardHolderName(), srcPay.getExpireDate(),srcPay.getCVV(), srcPay.getAddressOne(), srcPay.getAddressTwo(), srcPay.getCity(), srcPay.getState(), srcPay.getZIP());
 			payments.add(payment);
 		}
 		
@@ -98,6 +104,7 @@ public class editProfile extends JScrollPane{
 		passwordLabel = new JLabel("Password");
 		phoneLabel = new JLabel("Phone");
 		paymentLabel = new JLabel("Payment Methods");
+		paymentLabel.setFont(new Font("Futura", Font.PLAIN, 18));
 		
 		//Textfield setup
 		userNameTF = new JTextField(25);
@@ -117,6 +124,7 @@ public class editProfile extends JScrollPane{
 		this.getViewport().add(mainPane);
 		this.setVerticalScrollBarPolicy(VERTICAL_SCROLLBAR_AS_NEEDED);
 		this.setHorizontalScrollBarPolicy(HORIZONTAL_SCROLLBAR_AS_NEEDED);
+		this.getVerticalScrollBar().setUnitIncrement(10);
 		
 		
 	}
@@ -141,7 +149,7 @@ public class editProfile extends JScrollPane{
 				myFrame.validate();
 			}
 			else if(e.getSource() == morePayment) {
-				Payment newPayment= new Payment("","", "", "", "", 0,"", "", "", "", 0);
+				Payment newPayment= new Payment("", "", "", "", 0,"", "", "", "", 0);
 				payments.add(newPayment);
 				updateProfileMenu();
 			}
@@ -185,7 +193,9 @@ public class editProfile extends JScrollPane{
 		mainPane.add(phoneRow);		
 		
 		if(payments.size() > 0) {
-			mainPane.add(paymentLabel);
+			JPanel indent = new JPanel();
+			indent.add(paymentLabel);
+			mainPane.add(indent);
 			for(int i = 0; i < payments.size(); i++) {
 				Payment currentPayment = payments.get(i);
 				
@@ -235,7 +245,7 @@ public class editProfile extends JScrollPane{
 				JLabel expLab = new JLabel("Expiration Date");
 				JTextField expTF = new JTextField(25);
 				expTF.setText(currentPayment.getExpireDate());
-				connect(nameTF, currentPayment, 3);
+				connect(expTF, currentPayment, 3);
 				JPanel expRow = new JPanel();
 				expRow.add(expLab);
 				expRow.add(expTF);
@@ -322,16 +332,6 @@ public class editProfile extends JScrollPane{
 		customerPayments.clear();
 		for(int i = 0; i < payments.size(); i++) {
 			customerPayments.add(payments.get(i));
-			String type = payments.get(i).getCardType();
-			if(type.equals(""))
-				type = "INVALID";
-			String acnt = payments.get(i).getAccountNumber();
-			String lastFour;
-			if(acnt.length()>3)
-				lastFour = acnt.substring(acnt.length()-4);
-			else
-				lastFour = "0000";
-			customerPayments.get(i).setCardName(type + "-" + lastFour);
 		}
 	}
 	

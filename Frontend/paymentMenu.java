@@ -1,3 +1,4 @@
+package Frontend;
 
 
 import javax.swing.JFrame;
@@ -10,12 +11,18 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.SwingConstants;
 import javax.swing.JTextField;
+
+import Backend.Application;
+import Backend.Customer;
+import Backend.Order;
+import Backend.Payment;
 /**
  * 
  * @author Yue Fang
@@ -47,7 +54,7 @@ public class paymentMenu extends JPanel{
 	 * init and set style
 	 * @param total total price 
 	 */
-	public paymentMenu(JFrame frame, Application application, Customer customer) {
+	public paymentMenu(JFrame frame, Application application, Customer customer, List<Double> coupons) {
 		myFrame = frame;
 		myApplication = application;
 		myCustomer = customer;
@@ -55,7 +62,14 @@ public class paymentMenu extends JPanel{
 		savedInfo.setFont(mainFont);
 		altInfo.setFont(mainFont);
 		
-		price = new JLabel("Price: $" + Double.toString(customer.getCart().getTotal()));
+		Double overallPrice = customer.getCart().getTotal();
+		if(coupons != null)
+			for(Double coupon : coupons)
+				overallPrice -= coupon;
+		
+		final Double finalPrice = overallPrice;
+		
+		price = new JLabel("Price: $" + Double.toString(finalPrice));
 		price.setFont(mainFont);
 		
 		ccNumber.setText("Credit Card Number");
@@ -74,6 +88,38 @@ public class paymentMenu extends JPanel{
 		ccCVV.setFont(mediumFont);
 		ccCVV.addFocusListener(new HintListener());
 		
+		back.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				checkoutMenu returnRequest = new checkoutMenu(myFrame, myApplication, myCustomer);
+				myFrame.remove(myPanel);
+				myFrame.add(returnRequest);
+				myFrame.invalidate();
+				myFrame.validate();
+			}
+		});
+		
+		confirm.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				String num = ccNumber.getText();
+				String name = ccName.getText();
+				String exp = ccExp.getText();
+				String cvvStr = ccCVV.getText();
+				if(!num.equals("Credit Card Number") && !name.equals("Cardholder Name") && !exp.equals("Exp. Date") && !cvvStr.equals("CVV")) {
+					Integer cvvInt = Integer.parseInt(ccCVV.getText());
+					Order placeOrder = myCustomer.altCheckout(ccNumber.getText(), ccName.getText(), ccExp.getText(), cvvInt, coupons);
+					placeOrder.setPrice(finalPrice);
+					myApplication.addOrder(placeOrder);
+					customerMenu menuRequest = new customerMenu(myFrame, myApplication, myCustomer);
+					myFrame.remove(myPanel);
+					myFrame.add(menuRequest);
+					myFrame.invalidate();
+					myFrame.validate();
+				}
+			}
+		});
+		
 		setLayout(new GridLayout(0,1));
 		
 		addRow(null);
@@ -84,24 +130,33 @@ public class paymentMenu extends JPanel{
 		indent.add(price);
 		topRow.add(indent, BorderLayout.CENTER);
 		add(topRow);
-		addRow(null);
 		
 		if(!myCustomer.getIsGuest()) {
 			addRow(savedInfo);
 			for(Payment payInfo: myCustomer.getPayments()) {
-				JButton thisCard = new JButton();
-				thisCard.setText(payInfo.getCardName());
-				thisCard.setFont(mediumFont);
-				thisCard.addActionListener(new ActionListener() {
-					@Override
-					public void actionPerformed(ActionEvent e) {
-						// TODO Auto-generated method stub	
-					}
-				});
-				addRow(thisCard);
+				if(payInfo.isValid()) {
+					JButton thisCard = new JButton();
+					thisCard.setText(payInfo.getCardName());
+					thisCard.setFont(mediumFont);
+					thisCard.addActionListener(new ActionListener() {
+						@Override
+						public void actionPerformed(ActionEvent e) {
+							// TODO Auto-generated method stub	
+							Order placeOrder = myCustomer.customerCheckout(payInfo, coupons);
+							placeOrder.setPrice(finalPrice);
+							myApplication.addOrder(placeOrder);
+							customerMenu menuRequest = new customerMenu(myFrame, myApplication, myCustomer);
+							myFrame.remove(myPanel);
+							myFrame.add(menuRequest);
+							myFrame.invalidate();
+							myFrame.validate();
+						}
+					});
+					addRow(thisCard);
+				}
 			}
+			addRow(new JLabel("or"));
 		}
-		addRow(new JLabel("or"));
 		addRow(altInfo);
 		
 		addRow(ccNumber);

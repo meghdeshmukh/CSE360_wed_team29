@@ -1,13 +1,21 @@
+package Frontend;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.*;
+
+import Backend.Application;
+import Backend.Cart;
+import Backend.Customer;
+import Backend.Food;
+import Backend.Menu;
 
 
 /*
  * somewhat finished implementation
  * implement sign in screen
  */
+@SuppressWarnings("serial")
 public class signup extends JPanel{
 	//JFrame we are working in
 	JFrame myFrame;
@@ -229,63 +237,26 @@ public class signup extends JPanel{
 					error.setText("Please agree to our Terms of Service");
 				}
 				else {
-					//create a new customer and insert into database
-					//TBD
-					//go to menu
-					
-					//instantiate application, 
-					
-					//
-					//owner
-					//ownerpassword
-					//num of items in menu
-					//{retrieve item info}
-					//num of customer 
-					//{retrive customer info}
-					//num of corder
-					//{retrieving orders}
-					
-					//retrieve menu;
-					
-					
-					if(myMenu == null)
-						myMenu = new Menu();
-					
-					Customer theCustomer = new Customer();
-					theCustomer.register(emailInput, confirmPasswordInput, usernameInput, phoneInput, usernameInput);
-					if(myCart != null)
-						for(Food foodItem : myCart.getItems())
-							theCustomer.addCart(foodItem);
-					customerMenu testView = new customerMenu(myFrame, myApplication, theCustomer);
-					myFrame.remove(myPanel);
-					myFrame.add(testView);
-					myFrame.invalidate();
-					myFrame.validate();
+					if(myApplication.searchUser(emailInput, passwordInput) == null) {
+						Customer theCustomer = new Customer();
+						theCustomer.register(emailInput, confirmPasswordInput, usernameInput, phoneInput, usernameInput);
+						if(myCart != null)
+							for(Food foodItem : myCart.getItems())
+								theCustomer.addCart(foodItem);
+						myApplication.addUser(theCustomer);
+						customerMenu testView = new customerMenu(myFrame, myApplication, theCustomer);
+						myFrame.remove(myPanel);
+						myFrame.add(testView);
+						myFrame.invalidate();
+						myFrame.validate();
+					}
+					else {
+						error.setVisible(true);
+						error.setText("User already exists");
+					}
 				}
 				
 			}//submitButton
 		}//actionPerformed
 	}//Button listener
-	
-	//test main, remove as needed
-	public static void main(String[] args) {
-		JFrame testFrame = new JFrame("test frame");
-		testFrame.setSize(new Dimension(1400, 800));
-		Application testApp = new Application();
-		Menu testMenu = new Menu();
-		try {
-			testApp.addMenu(testMenu);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		signup testSignup = new signup(testFrame, testApp, null);
-		
-		
-		testFrame.add(testSignup);
-		testFrame.pack();
-		testFrame.setLocationRelativeTo(null);
-		testFrame.show();	
-
-	}
 } //end of signup panel
