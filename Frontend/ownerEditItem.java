@@ -86,7 +86,7 @@ public class ownerEditItem extends JPanel{
 		});
 		
 		price.setFont(mediumFont);
-		priceTF.setText(Double.toString(myFood.getPrice()));
+		priceTF.setText(String.format("%.2f",myFood.getPrice()));
 		priceTF.setFont(mediumFont);
 		calories.setFont(mediumFont);
 		calTF.setText(Integer.toString(myFood.getCalories()));

@@ -70,7 +70,6 @@ public class viewProfile extends JPanel{
 		profileLabel = new JLabel("Profile");
 		profileLabel.setFont(mainFont);
 		usernameLabel = new JLabel("Username");
-		usernameLabel.setFont(smallFont);
 		fullnameLabel = new JLabel("Full Name");
 		emailLabel = new JLabel("Email");
 		passwordLabel = new JLabel("Password");
@@ -148,7 +147,28 @@ public class viewProfile extends JPanel{
 				row.add(paymentMethod);
 				add(row);
 			}
+		}
+		
+		if(theCustomer.getCoupons().size() > 0) {
+			JPanel row = new JPanel();
+			JLabel labelCoupon = new JLabel("Owned Coupons");
+			labelCoupon.setFont(smallFont);
+			row.add(labelCoupon);
+			add(row);
+			int i = 1;
+			for(Double coupon : theCustomer.getCoupons()) {
+				JPanel couponRow = new JPanel();
+				JLabel couponIdentifier = new JLabel("Coupon #" + Integer.toString(i));
+				JTextField couponAmount = new JTextField(25);
+				couponAmount.setText(String.format("$%.2f", coupon));
+				couponAmount.setEditable(false);
+				couponRow.add(couponIdentifier);
+				couponRow.add(couponAmount);
+				add(couponRow);
+				i++;
+				
 			}
+		}
 	}
 	
 	public class ButtonListener implements ActionListener{

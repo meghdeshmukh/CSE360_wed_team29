@@ -74,7 +74,7 @@ public class checkoutMenu extends JPanel{
 		
 		custAhead = new JLabel("Customers Ahead in Queue: " + Integer.toString(myApplication.getOrders().size()));
 		custAhead.setFont(mainFont);
-		waitTime = new JLabel("Estimated Wait Time Until Order Received: " + Integer.toString(myApplication.getTotalOrderTime()));
+		waitTime = new JLabel("Estimated Wait Time Until Order Received: " + Integer.toString(myApplication.getTotalOrderTime()) + " min");
 		waitTime.setFont(mainFont);
 		row = new JPanel(new GridLayout(0,1));
 		row.add(custAhead);
@@ -113,7 +113,7 @@ public class checkoutMenu extends JPanel{
 							amountOfOccurances++;
 					
 					processedAmounts.get(index).setText("x" + Integer.toString(amountOfOccurances));
-					processedPrices.get(index).setText("$" + Double.toString((Double)item.getPrice() * amountOfOccurances));
+					processedPrices.get(index).setText("$" + String.format("%.2f", (Double)item.getPrice() * amountOfOccurances));
 					processedCookTimes.get(index).setText(Integer.toString(amountOfOccurances * item.getTime()) + " min");
 				}
 				else {
@@ -121,7 +121,7 @@ public class checkoutMenu extends JPanel{
 					JLabel name = new JLabel(item.getName());
 					JLabel amount = new JLabel("x1");
 					processedAmounts.add(amount);
-					JLabel price = new JLabel("$" + Double.toString(item.getPrice()));
+					JLabel price = new JLabel("$" + String.format("%.2f", item.getPrice()));
 					processedPrices.add(price);
 					JLabel time = new JLabel(Integer.toString(item.getTime()) + " min");
 					processedCookTimes.add(time);
@@ -189,9 +189,9 @@ public class checkoutMenu extends JPanel{
 				if(overallPrice - coupon > 0) {
 					couponsToConsume.add(coupon);
 					overallPrice -= coupon;
-					JLabel couponAmount = new JLabel("$" + Double.toString(coupon) + " Coupon");
+					JLabel couponAmount = new JLabel("$" + String.format("%.2f", coupon) + " Coupon");
 					couponAmount.setForeground(Color.RED);
-					JLabel subtractCoupon = new JLabel("-$" + Double.toString(coupon));
+					JLabel subtractCoupon = new JLabel("-$" + String.format("%.2f", coupon));
 					subtractCoupon.setForeground(Color.RED);
 					
 					center.add(new JLabel());
@@ -210,7 +210,7 @@ public class checkoutMenu extends JPanel{
 		total.setAlignmentX(LEFT_ALIGNMENT);
 		total.setEditable(false);
 		total.setFont(mediumFont);
-		total.setText("$" + Double.toString(overallPrice));
+		total.setText("$" + String.format("%.2f", overallPrice));
 		JTextField totalCook = new JTextField(15);
 		totalCook.setEditable(false);
 		totalCook.setAlignmentX(LEFT_ALIGNMENT);

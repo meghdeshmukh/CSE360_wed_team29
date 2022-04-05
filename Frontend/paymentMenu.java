@@ -69,7 +69,7 @@ public class paymentMenu extends JPanel{
 		
 		final Double finalPrice = overallPrice;
 		
-		price = new JLabel("Price: $" + Double.toString(finalPrice));
+		price = new JLabel("Price: $" + String.format("%.2f",finalPrice));
 		price.setFont(mainFont);
 		
 		ccNumber.setText("Credit Card Number");

@@ -215,13 +215,6 @@ public class login extends JPanel {
 			testApp.restoreApplication();
 			login test = new login(testFrame, testApp, null);
 			
-			for(User users : testApp.getUsers()) {
-				System.out.println("email: " + users.getEmail());
-				if(users instanceof Customer)
-					((Customer) users).addCoupon(7.00);
-				System.out.println("password: " + users.getPassword());
-			}
-			
 			testFrame.add(test);
 			testFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 			testFrame.setLocationRelativeTo(null);

@@ -69,7 +69,11 @@ public class OwnerView extends JPanel{
 		repository.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
+				CustomerRepository repoRequest = new CustomerRepository(myFrame, myApplication);
+				myFrame.remove(myPanel);
+				myFrame.add(repoRequest);
+				myFrame.invalidate();
+				myFrame.validate();
 			}
 		});
 		
