@@ -1,3 +1,4 @@
+package Backend;
 import java.io.Serializable;
 
 public class User implements Serializable{
@@ -12,15 +13,6 @@ public class User implements Serializable{
 	public User() {
 		this.email = null;
 		this.password = null;
-	}
-
-	public Food query(String query, Menu menu) {
-		for (int i = 0; i < menu.getItems().size(); i++) {
-			if (query.equals(menu.getItems().get(i).getName())) {
-				return menu.getItems().get(i);
-			}
-		}
-		return null;
 	}
 
 	public Boolean verifyLogin(String identifier, String password) {
@@ -47,4 +39,3 @@ public class User implements Serializable{
 	}
 
 }
-
