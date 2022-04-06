@@ -14,4 +14,4 @@ This is how we are saving between sessions, and will help with testing since the
 
 REGARDING IMAGES
 1)Save images you want to use in the images folder.
-2)When prompted to enter an image name for a new food item or when editing a food item, insert the name of the image file (i.e. food.png, food.jpg, chicken.png, etc.) and not the file name
+2)When prompted to enter an image name for a new food item or when editing a food item, insert just the name of the image file (i.e. food.png, food.jpg, chicken.png, etc.) and not the file path name
