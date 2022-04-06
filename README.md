@@ -30,9 +30,11 @@ Dummy Accounts will already be instantiated as long as step 2 has been followed.
 > Dummy 1:
 >> Email address: dummy0@gmail.com
 >> Password: dummyPassword
+
 > Dummy 2:
 >> Email address: dummy1@gmail.com
 >> Password: dummyPassword
+
 > Dummy 3:
 >> Email address: dummy2@gmail.com
 >> Password: dummyPassword
