@@ -121,7 +121,9 @@ public class Application implements Serializable{
             oi.close();
             fi.close();
 		} catch (IOException | ClassNotFoundException e) {
-			e.printStackTrace();
+			System.out.println("Could not find database.txt");
+			System.out.println("Run Application.java to create database file");
+			System.exit(1);
 		}
     }
     
