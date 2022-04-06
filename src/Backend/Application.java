@@ -141,7 +141,7 @@ public class Application implements Serializable{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-    	Owner testOwner = new Owner("Admin", "1234");
+    	Owner testOwner = new Owner("Admin@gmail.com", "1234");
     	try {
 			testApp.setOwner(testOwner);
 		} catch (Exception e) {
@@ -150,7 +150,7 @@ public class Application implements Serializable{
 		}
     	testApp.addUser(testOwner);
     	
-    	for(int i = 0; i < 5; i++) {
+    	for(int i = 0; i < 3; i++) {
     		Customer dummyCustomer = new Customer();
     		dummyCustomer.register("dummy" + Integer.toString(i) + "@gmail.com", "dummyPassword", "dummy", "0123456789", "dummy" + Integer.toString(i));
     		testApp.addUser(dummyCustomer);
