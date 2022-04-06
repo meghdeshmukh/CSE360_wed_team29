@@ -2,7 +2,7 @@
 
 ## Project Details
 
-<p> This CSE360 project as a Restaurant database and GUI, usable by both customers and restaurant owners. Customer will have access to online ordering, profiles, and coupons. Meanwhile the restaurant owners will be capable of changing the menu as they wish: adding, removing, and editing menu items to best suit their wishes. They will additionally be capable of reviewing their frequent customers and gifting coupons to those they wish </p>
+<p> This CSE360 project as a Restaurant database and GUI, usable by both customers and restaurant owners. Customer will have access to online ordering, profiles, and coupons. Meanwhile the restaurant owners will be capable of changing the menu as they wish: adding, removing, and editing menu items to best suit their wishes. They will additionally be capable of reviewing their frequent customers and gifting coupons to those they wish. </p>
 
 
 ## Running the Application
@@ -14,8 +14,8 @@
 
 ## Adding images for items
 
-1)Save images you want to use in the images folder.
-2)When prompted to enter an image name for a new food item or when editing a food item, insert just the name of the image file (i.e. food.png, food.jpg, chicken.png, etc.) and not the file path name
+1) Save images you want to use in the images folder.
+2) When prompted to enter an image name for a new food item or when editing a food item, insert just the name of the image file (i.e. food.png, food.jpg, chicken.png, etc.) and not the file path name.
 
 ## Accessing The Admin Account
 
