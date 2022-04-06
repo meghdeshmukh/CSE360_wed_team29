@@ -3,6 +3,8 @@ package Frontend;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.util.ArrayList;
 
 import javax.swing.*;
@@ -90,13 +92,15 @@ public class CustomerRepository extends JPanel{
 	            row.setBorder(border);
 	
 	            JPanel left = new JPanel(new GridLayout(0, 1));
-	            JLabel name = new JLabel(customer.getName());
+	            JLabel name = new JLabel("Customer Name: " + customer.getName());
 	            name.setFont(smallFont);
-	            JLabel phone = new JLabel(customer.getPhone());
+	            JLabel phone = new JLabel("Phone Number: " + customer.getPhone());
 	            phone.setFont(smallFont);
+	            JLabel visits = new JLabel("Orders Placed: " + Integer.toString(customer.getVisits()));
 	
 	            left.add(name);
 	            left.add(phone);
+	            left.add(visits);
 	
 	            JPanel right = new JPanel(new GridLayout(1,0));
 	            JTextField amount = new JTextField(10);

@@ -324,6 +324,7 @@ public class editProfile extends JScrollPane{
 	
 	private void saveInformation() {
 		myCustomer.changeEmail(emailTF.getText());
+		myCustomer.changeUsername(userNameTF.getText());
 		myCustomer.changeName(fullNameTF.getText());
 		myCustomer.changePhone(phoneTF.getText());
 		myCustomer.changePassword(passwordTF.getText());

@@ -37,4 +37,13 @@ public class Cart implements Serializable{
 	public int getTime() {
 		return this.totalTime;
 	}
+	
+	public void update() {
+		total = 0.0;
+		totalTime = 0;
+		for(Food food : items) {
+			total += food.getPrice();
+			totalTime += food.getTime();
+		}
+	}
 }

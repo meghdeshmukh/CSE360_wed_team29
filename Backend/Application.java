@@ -125,6 +125,12 @@ public class Application implements Serializable{
 		}
     }
     
+    public void updateCarts() {
+    	for(User user : users)
+    		if(user instanceof Customer)
+    			((Customer) user).getCart().update();
+    }
+    
     public static void main(String[] args) {
     	//this will create a test application and save it to a textfile. Run this if the application that was already saved becomes corrupted
     	Menu testMenu = new Menu();
@@ -143,6 +149,13 @@ public class Application implements Serializable{
 			e.printStackTrace();
 		}
     	testApp.addUser(testOwner);
+    	
+    	for(int i = 0; i < 5; i++) {
+    		Customer dummyCustomer = new Customer();
+    		dummyCustomer.register("dummy" + Integer.toString(i) + "@gmail.com", "dummyPassword", "dummy", "0123456789", "dummy" + Integer.toString(i));
+    		testApp.addUser(dummyCustomer);
+    	}
+    	
     	
     	String[] burgerIng = {"Bread", "Beef", "Tomato", "Lettuce", "Cheese", "Bacon"};
     	Food burger = new Food("Burger", "burger.png", burgerIng, 11.00, 600, 10);

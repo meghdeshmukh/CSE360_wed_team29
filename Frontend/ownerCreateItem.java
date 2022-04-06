@@ -1,3 +1,5 @@
+
+
 package Frontend;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -14,17 +16,16 @@ import Backend.*;
 
 
 @SuppressWarnings("serial")
-public class ownerEditItem extends JPanel{
+public class ownerCreateItem extends JPanel{
 	
 	
 	JFrame myFrame;
 	Owner myOwner;
 	Application myApplication;
-	ownerEditItem myPanel = this;
-	Food myFood;
+	ownerCreateItem myPanel = this;
 	
 	JButton back = new JButton("Back");
-	JButton save = new JButton("Save Changes");
+	JButton save = new JButton("Save Item to Menu");
 	
 	JLabel ingredients = new JLabel("Ingredients");
 	JLabel price = new JLabel("Price: $");
@@ -34,9 +35,7 @@ public class ownerEditItem extends JPanel{
 	JLabel name = new JLabel("Name: ");
 	JTextField nameTF = new JTextField(20);
 	JTextField imageName;
-	JTextField cookTimeTF;
-	
-	BufferedImage foodPic;
+	JTextField cookTimeTF = new JTextField(10);
 	
 	Font mainFont = new Font("Futura", Font.ITALIC, 25);
 	Font mediumFont = new Font("Futura", Font.PLAIN ,18);
@@ -46,22 +45,19 @@ public class ownerEditItem extends JPanel{
 	
 	Dimension buttonDimension = new Dimension(90,30);
 	
-	public ownerEditItem(JFrame frame, Application application, Owner owner, Food food) {
+	public ownerCreateItem(JFrame frame, Application application, Owner owner) {
 		
 		myFrame = frame;
 		myOwner = owner;
 		myApplication = application;
-		myFood = food;
 		
-		for(String ing : myFood.getIngredients())
-			monitorIng.add(ing);
 		
 		back.setSize(buttonDimension);
 		back.setFont(mainFont);
 		back.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				OwnerView theMenu = new OwnerView(myFrame, myApplication, myOwner);
+				OwnerView theMenu = new OwnerView(myFrame, myApplication, myOwner);// add my food
 				myFrame.remove(myPanel);
 				myFrame.add(theMenu);
 				myFrame.invalidate();
@@ -73,29 +69,32 @@ public class ownerEditItem extends JPanel{
 		save.setFont(mainFont);
 		save.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				myFood.setName(nameTF.getText());
-				myFood.setImageName(imageName.getText());
-				myFood.setPrice(Double.parseDouble(priceTF.getText()));
-				myFood.setCalories(Integer.parseInt(calTF.getText()));
-				myFood.replaceIng(monitorIng);
-				myFood.setTime(Integer.parseInt(cookTimeTF.getText()));
-				myApplication.updateCarts();
-				OwnerView theMenu = new OwnerView(myFrame, myApplication, myOwner);
-				myFrame.remove(myPanel);
-				myFrame.add(theMenu);
-				myFrame.invalidate();
-				myFrame.validate();
+				String newName = nameTF.getText();
+				String newImage = imageName.getText();
+				String newPrice = priceTF.getText();
+				String newCalories = calTF.getText();
+				String newTime = cookTimeTF.getText();
+				if(newName.length() > 0 && newImage.length() > 0 && newPrice.length() > 0 && newCalories.length() > 0 && newTime.length() > 0 && monitorIng.size() > 0) {
+					String[] newIngredients = new String[monitorIng.size()];
+					for(int i = 0; i < monitorIng.size(); i++)
+						newIngredients[i] = monitorIng.get(i);
+					
+					Food newFood = new Food(newName, newImage, newIngredients, Double.parseDouble(newPrice), Integer.parseInt(newCalories), Integer.parseInt(newTime));
+					myApplication.getMenu().add(newFood);
+					OwnerView savedRequest = new OwnerView(myFrame, myApplication, myOwner);
+					myFrame.remove(myPanel);
+					myFrame.add(savedRequest);
+					myFrame.invalidate();
+					myFrame.validate();
+				}
 			}
 		});
 		
 		price.setFont(mediumFont);
-		priceTF.setText(String.format("%.2f",myFood.getPrice()));
 		priceTF.setFont(mediumFont);
 		calories.setFont(mediumFont);
-		calTF.setText(Integer.toString(myFood.getCalories()));
 		calTF.setFont(mediumFont);
 		name.setFont(mainFont);
-		nameTF.setText(myFood.getName());
 		nameTF.setFont(mediumFont);
 		
 		setLayout(new BorderLayout());
@@ -110,12 +109,9 @@ public class ownerEditItem extends JPanel{
 		
 		imageName = new JTextField(10);
 		imageName.setFont(mediumFont);
-		imageName.setText(myFood.getImageName());
 		JLabel image = new JLabel("Food Image Name: ");
 		image.setFont(mediumFont);
-		cookTimeTF = new JTextField(10);
 		cookTimeTF.setFont(mediumFont);
-		cookTimeTF.setText(Integer.toString(myFood.getTime()));
 		JLabel cookTimeLabel = new JLabel("Cook Time: ");
 		cookTimeLabel.setFont(mediumFont);
 		
@@ -206,7 +202,7 @@ public class ownerEditItem extends JPanel{
 		
 		JFrame testFrame = new JFrame();
 		testFrame.setSize(new Dimension(1400, 800));
-		ownerEditItem test = new ownerEditItem(testFrame, testApp, testOwner, testFood);
+		ownerCreateItem test = new ownerCreateItem(testFrame, testApp, testOwner);
 		testFrame.add(test);
 		testFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		testFrame.setLocationRelativeTo(null);

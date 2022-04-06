@@ -11,9 +11,11 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
 import Backend.Application;
+import Backend.Customer;
 import Backend.Food;
 import Backend.Menu;
 import Backend.Owner;
+import Backend.User;
 
 
 /*
@@ -60,7 +62,11 @@ public class OwnerView extends JPanel{
 		createNew.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
+				ownerCreateItem creationRequest = new ownerCreateItem(myFrame, myApplication, myOwner);
+				myFrame.remove(myPanel);
+				myFrame.add(creationRequest);
+				myFrame.invalidate();
+				myFrame.validate();
 			}
 		});
 		
@@ -174,6 +180,12 @@ public class OwnerView extends JPanel{
 					@Override
 					public void actionPerformed(ActionEvent e) {
 						myApplication.getMenu().remove(theFood);
+						for(User users : myApplication.getUsers())
+							if(users instanceof Customer) {
+								Customer customer = (Customer) users;
+								while(customer.getCart().getItems().contains(theFood))
+									customer.getCart().deleteFromCart(theFood);
+							}
 						updateMenu(pane);
 					}
 				});

@@ -89,6 +89,10 @@ public class Food implements Serializable{
     	return this.timeCook;
     }
     
+    public void setTime(int time) {
+    	this.timeCook = time;
+    }
+    
     /*
      * testing to make sure the image finder functions works
      */
