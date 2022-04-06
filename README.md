@@ -21,6 +21,7 @@
 
 The Admin account has already been instantiated as long as step 2 has been followed. To access it, enter the following details.
 > Email address: Admin@gmail.com
+> 
 > Password: 1234
 
 ## Acessing Dummy Accounts
@@ -29,14 +30,17 @@ Dummy Accounts will already be instantiated as long as step 2 has been followed.
 
 > Dummy 1:
 >> Email address: dummy0@gmail.com
+>> 
 >> Password: dummyPassword
 
 > Dummy 2:
 >> Email address: dummy1@gmail.com
+>> 
 >> Password: dummyPassword
 
 > Dummy 3:
 >> Email address: dummy2@gmail.com
+>> 
 >> Password: dummyPassword
 
 You can additionally create your own accounts using the sign up feature which will automatically be saved everytime you close the program.
