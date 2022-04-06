@@ -9,8 +9,10 @@
 
 1) Set the src folder as the source path for the program in your preferred ide or compiler.
 
-2) Compile and run Restaurant.java and make sure that the database.txt file is located outside the src folder. Otherwise run Application.java to instantiate a dummy application.
+2) Compile and run Application.java to instantiate an application with an owner and dummy customers.
 > Application.java only needs to be run the first time you ever run the program.
+
+3) Run Restaraunt.java to access the program.
 
 ## Adding images for items
 
